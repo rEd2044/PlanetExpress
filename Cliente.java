@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Description of the class
+ * Description of the classs
  *
  * @author Taller de Programación
  * @version     1.0
