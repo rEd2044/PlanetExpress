@@ -7,6 +7,7 @@ import java.util.Scanner;
  * @version     1.0
  */
 public class Cliente {
+
     private final ListaEnvios listaEnvios;
     private final String nombre;
     private final String apellidos;
@@ -26,17 +27,39 @@ public class Cliente {
         this.email = email;
         this.listaEnvios = new ListaEnvios(maxEnvios);
     }
+
+    /**
+     *
+     * @return
+     */
     public String getNombre() {
         return nombre;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getApellidos() {
         return apellidos;
     }
+
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
+
+    /**
+     *
+     * @return
+     */
     // TODO: Texto que debe generar: Zapp Brannigan, zapp.brannigan@dop.gov
     public String toString() {
+        String aux;
+        return aux= this.nombre.toLowerCase() +"."+this.apellidos.toLowerCase()+"@alumnos.upm.es";
 
     }
     // TODO: Devuelve un booleano que indica si se ha alcanzado el número máximo de envíos
