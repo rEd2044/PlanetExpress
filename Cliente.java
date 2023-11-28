@@ -62,31 +62,77 @@ public class Cliente {
         return aux= this.nombre.toLowerCase() +"."+this.apellidos.toLowerCase()+"@alumnos.upm.es";
 
     }
+
+    /**
+     *
+     * @return
+     */
     // TODO: Devuelve un booleano que indica si se ha alcanzado el número máximo de envíos
     public boolean maxEnviosAlcanzado() {
-
+       return this.listaEnvios.estaLlena();
     }
+
+    /**
+     *
+     * @param i
+     * @return
+     */
     // TODO: Devuelve un envío en función de su posición
-    public Envio getEnvio(int i) {
 
+    public Envio getEnvio(int i) {
+    return this.listaEnvios.getEnvio(i);
     }
+
+    /**
+     *
+     * @return
+     */
     public ListaEnvios getListaEnvios() {
         return listaEnvios;
     }
+
+    /**
+     *
+     * @param envio
+     * @return
+     */
     // TODO: Añade un envío al cliente
     public boolean aniadirEnvio(Envio envio) {
-
+    return this.listaEnvios.insertarEnvio(envio);
     }
+
+    /**
+     *
+     * @param localizador
+     * @return
+     */
     public Envio buscarEnvio(String localizador) {
         return listaEnvios.buscarEnvio(localizador);
     }
+
+    /**
+     *
+     * @param localizador
+     * @return
+     */
     // TODO: Elimina el envío de la lista de envíos del pasajero
     public boolean cancelarEnvio(String localizador) {
-
+     return this.listaEnvios.eliminarEnvio(localizador);
     }
+
+    /**
+     *
+     */
     public void listarEnvios() {
         listaEnvios.listarEnvios();
     }
+
+    /**
+     *
+     * @param teclado
+     * @param mensaje
+     * @return
+     */
     // Encapsula la funcionalidad seleccionarEnvio de ListaEnvios
     public Envio seleccionarEnvio(Scanner teclado, String mensaje) {
         return listaEnvios.seleccionarEnvio(teclado, mensaje);
@@ -102,11 +148,14 @@ public class Cliente {
      * @param maxEnvios
      * @return Cliente
      */
-    public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
-
-
-
-
+    //          P   O   S   I   B   L   E                  F   A   L   L   O
+        public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
+        String email, nombre, apellidos;
+        do {
+            nombre = Utilidades.leerCadena(teclado, "Nombre:");
+            apellidos = Utilidades.leerCadena(teclado, "Apellidos:");
+            email = Utilidades.leerCadena(teclado, "Email:");
+        }while (clientes.buscarClienteEmail(email)!=null|| !correctoEmail(email));
         return new Cliente(nombre, apellidos, email, maxEnvios);
     }
 
@@ -117,6 +166,11 @@ public class Cliente {
      * @return
      */
     public static boolean correctoEmail(String email) {
-        return false;
+        email.contains("@alumnos.upm.es");
+        if( email.contains("@alumnos.upm.es")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
