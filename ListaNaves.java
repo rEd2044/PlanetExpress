@@ -4,8 +4,8 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
- * @author
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version     1.0
  */
 public class ListaNaves {
@@ -17,21 +17,35 @@ public class ListaNaves {
      * @param capacidad
      */
     public ListaNaves(int capacidad) {
-        
-		
-		
+        this.naves=new Nave[capacidad];
+
     }
     // TODO: Devuelve el número de naves que hay en la lista
     public int getOcupacion() {
+        int ocupacion=0;
+        int i=0;
+        while(i< naves.length){
+            if(naves == null){
+                i=naves.length;
+            }
+            ocupacion++;
+            i++;
+        }
 
+        return ocupacion;
     }
     // TODO: ¿Está llena la lista de naves?
     public boolean estaLlena() {
+        int ocupacion=getOcupacion();
+        if(ocupacion == naves.length){
+            return true;
+        }
+        return  false;
 
     }
 	// TODO: Devuelve nave dado un indice
     public Nave getNave(int posicion) {
-        return null;
+        return naves[posicion];
     }
 
     /**
@@ -40,9 +54,14 @@ public class ListaNaves {
      * @return true en caso de que se añada correctamente, false en caso de lista llena o error
      */
     public boolean insertarNave(Nave nave) {
-
-
-        return false;
+        int posicion=getOcupacion();
+        naves[posicion]=nave;
+        posicion++;
+        if(naves[posicion-1]==nave){
+            return true;
+        }else {
+            return false;
+        }
     }
     /**
      * TODO: Buscamos la nave a partir de la matricula pasada como parámetro
@@ -50,12 +69,20 @@ public class ListaNaves {
      * @return la nave que encontramos o null si no existe
      */
     public Nave buscarNave(String matricula) {
-
+       int i=0;
+       while(i<naves.length){
+           if(matricula == getNave(i).getMatricula()){
+                return getNave(i);
+           }
+           i++;
+       }
         return null;
     }
     // TODO: Muestra por pantalla las naves de la lista con el formato indicado en el enunciado
     public void mostrarNaves() {
-
+        for(Nave nave:naves){
+            System.out.println(nave);
+        }
     }
 
 
@@ -72,8 +99,11 @@ public class ListaNaves {
      */
     public Nave seleccionarNave(Scanner teclado, String mensaje, double alcance) {
         Nave nave = null;
-
-
+        do {
+            System.out.println(mensaje);
+            String matricula = teclado.nextLine();
+            nave = buscarNave(matricula);
+        }while (alcance<=nave.getAlcance());
         return nave;
     }
 
@@ -86,12 +116,23 @@ public class ListaNaves {
     public boolean escribirNavesCsv(String nombre) {
         PrintWriter pw = null;
         try {
-
+            pw=new PrintWriter(nombre+".csv");
+            if(nombre==null){
+                for(Nave nav:naves){
+                    pw.println(nav);
+                }
+            }else{
+                for(Nave nav:naves){
+                    pw.println(nav);
+                }
+            }
             return true;
         } catch (Exception e) {
             return false;
         } finally {
-
+            if(pw !=null){
+                pw.close();
+            }
         }
     }
 

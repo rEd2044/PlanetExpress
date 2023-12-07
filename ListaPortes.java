@@ -17,16 +17,28 @@ public class ListaPortes {
      * @param capacidad
      */
     public ListaPortes(int capacidad) {
-        
-		
-		
+        this.portes= new Porte[capacidad];
     }
     // TODO: Devuelve el número de portes que hay en la lista
     public int getOcupacion() {
-
+        int ocupacion=0;
+        int i=0;
+        while (i<portes.length){
+            if(portes==null){
+                i=portes.length;
+            }
+            ocupacion++;
+            i++;
+        }
+        return ocupacion;
     }
     // TODO: ¿Está llena la lista?
     public boolean estaLlena() {
+        int ocupacion=getOcupacion();
+        if(ocupacion== portes.length){
+            return true;
+        }
+        return false;
 
     }
 
@@ -42,8 +54,14 @@ public class ListaPortes {
      * @return false en caso de estar llena la lista o de error
      */
     public boolean insertarPorte(Porte porte) {
-
-        return false;
+        int posicion=getOcupacion();
+        portes[posicion]=porte;
+        posicion++;
+        if(portes[posicion-1]==porte){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -53,7 +71,13 @@ public class ListaPortes {
      * @return el objeto Porte que encontramos o null si no existe
      */
     public Porte buscarPorte(String id) {
-
+        int i=0;
+        while(i< portes.length){
+            if(id==getPorte(i).getID()){
+                return getPorte(i);
+            }
+            i++;
+        }
         return null;
     }
 
@@ -66,16 +90,25 @@ public class ListaPortes {
      * @return
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
-        
+        int i=0;
+        ListaPortes portes1=new ListaPortes(i);
+        while (i< portes.length){
+            if (getPorte(i).coincide(codigoOrigen,codigoDestino,fecha)){
+                 getPorte(i);
 
-        return listaPortes;
+            }
+            i++;
+        }
+        return portes1;
     }
 
     /**
      * TODO: Muestra por pantalla los Portes siguiendo el formato de los ejemplos del enunciado
      */
     public void listarPortes() {
-
+        for(Porte port:portes){
+            System.out.println(port);
+        }
     }
 
 
@@ -103,12 +136,28 @@ public class ListaPortes {
      * @return
      */
     public boolean escribirPortesCsv(String fichero) {
+        PrintWriter salida= null;
         try {
-
+            salida= new PrintWriter(fichero+".csv");
+            if(fichero==null){
+                for (Porte por:portes){
+                    salida.print(por);
+                }
+            }else {
+                for (Porte por : portes) {
+                    salida.print(por);
+                }
+            }
             return true;
         } catch (FileNotFoundException e) {
+            System.out.println("IOException al escribir: "+e.getMessage());
             return false;
+        }finally {
+            if(salida !=null){
+                salida.close();
+            }
         }
+
     }
 
     /**

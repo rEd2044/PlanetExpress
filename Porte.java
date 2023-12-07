@@ -216,9 +216,10 @@ public class Porte {
             for (int i=0; i<listaEnvios.getOcupacion() ;i++){
                 salida.print(envios1[i]);
             }
-
+            return true;
         } catch (FileNotFoundException ex) {
             System.out.println(ex.getMessage());
+            return false;
         }
     }
 
