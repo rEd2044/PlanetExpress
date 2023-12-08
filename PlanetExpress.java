@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -29,14 +30,12 @@ public class PlanetExpress {
      * @param maxEnviosPorCliente Máximo número de envíos por cliente.
      */
     public PlanetExpress(int maxPuertosEspaciales, int maxNaves, int maxPortes, int maxClientes, int maxEnviosPorCliente) {
-
-
-
-
-
+        this.maxPuertosEspaciales=maxPuertosEspaciales;
+        this.maxNaves=maxNaves;
+        this.maxPortes=maxPortes;
+        this.maxClientes=maxClientes;
+        this.maxEnviosPorCliente=maxEnviosPorCliente;
     }
-
-
     /**
      * TODO: Metodo para leer los datos de los ficheros específicados en el enunciado y los agrega a
      *  la información de PlanetExpress (listaPuertosEspaciales, listaNaves, listaPortes, listaClientes)
@@ -47,6 +46,12 @@ public class PlanetExpress {
      * @param ficheroEnvios
      */
     public void cargarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
+        //Metodo para los metocdos de leer que faltan
+        ListaPuertosEspaciales puertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,maxPuertosEspaciales);
+        ListaNaves naves=ListaNaves.leerNavesCsv(ficheroNaves,maxNaves);
+        ListaPortes portes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,puertosEspaciales,naves);
+        ListaClientes clientes=ListaClientes.leerClientesCsv(ficheroClientes,maxClientes,maxEnviosPorCliente);
+        ListaEnvios.leerEnviosCsv(ficheroEnvios,portes,clientes);
 
 
 
@@ -89,9 +94,11 @@ public class PlanetExpress {
      * @return
      */
     public ListaPortes buscarPorte(Scanner teclado) {
-
-
-
+        Fecha fecha=Utilidades.leerFechaHora(teclado,"Ingrese la fecha de salida");
+        PuertoEspacial puertoEspacials=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un codigo: ");
+        String codigoOrigen=puertoEspacials.getCodigo();
+        PuertoEspacial puertoEspaciall=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un codigo: ");
+        String codigoDestino=puertoEspaciall.getCodigo();
         return listaPortes.buscarPortes(codigoOrigen, codigoDestino, fecha);
     }
 
@@ -121,6 +128,13 @@ public class PlanetExpress {
      * @return opción seleccionada
      */
     public static int menu(Scanner teclado) {
+        System.out.println("1. Alta de Porte\n" +
+                "2. Alta de Cliente\n" +
+                "3. Buscar Porte\n" +
+                "4. Mostrar envíos de un cliente\n" +
+                "5. Generar lista de envíos\n" +
+                "0. Salir");
+        return teclado.nextInt();
 
     }
 
@@ -147,14 +161,14 @@ public class PlanetExpress {
             System.out.println("Número de argumentos incorrecto");
             return;
         }
-
-
+        Scanner teclado=new Scanner(System.in);
+        int opcion;
+        System.out.println("Seleccione una opción ");
         do {
             opcion = menu(teclado);
             switch (opcion) {
                 case 1:     // TODO: Alta de Porte
-
-
+                    Porte.altaPorte(teclado,,);
                     break;
                 case 2:     // TODO: Alta de Cliente
 
