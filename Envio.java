@@ -6,8 +6,8 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
- * @author
+ * Marcos Cerrada García
+ * Mario Blasco Puente
  * @version     1.0
  */
 public class Envio {
@@ -37,35 +37,87 @@ public class Envio {
         this.columna = columna;
         this.precio = precio;
     }
+
+    /**
+     *
+     * @return
+     */
+    //metodo que devuelve el localizador
     public String getLocalizador() {
         return localizador;
     }
+
+    /**
+     *
+     * @return
+     */
+    //metodo que devuelve el porte
     public Porte getPorte() {
         return porte;
     }
+
+    /**
+     *
+     * @return
+     */
+    //metodo que devuelve el cliente
     public Cliente getCliente() {
         return cliente;
     }
+
+    /**
+     *
+     * @return
+     */
+    // metodo que devuelve la fila en la que se encuentra el envio
     public int getFila() {
         return fila;
     }
+
+    /**
+     *
+     * @return
+     */
+    //metodo que devuelve la columna en la que se encuentar el envio
     public int getColumna() {
         return columna;
     }
+
+    /**
+     *
+     * @return
+     */
     // TODO: Ejemplos: "1A" para el hueco con fila 1 y columna 1, "3D" para el hueco con fila 3 y columna 4
     public String getHueco() {
-        return "";
+        char letra = '@';
+        for(int i = 1; i<=this.columna;i++){
+            letra++;
+        }
+        return String.valueOf(this.fila)+letra;
+
     }
+
+    /**
+     *
+     * @return
+     */
+    //metodo que devuelve el precio del envio
     public double getPrecio() {
         return precio;
     }
+//                                                     S     I     N            T    E     R    M    I     N     A     R
+    /**
+     *
+     * @return
+     */
     //TODO: Texto que debe generar: Envío PM1111AAAABBBBC para Porte PM0066 de GGT M5 (01/01/2023 08:15:00) a CID M1 (01/01/2024 11:00:05) en hueco 6C por 13424,56 SSD
     public String toString() {
+        return ("Envio "+this.localizador+" para "+this.porte.toStringSimple()+"en hueco "+getHueco()+" por "+this.porte.getPrecio()+" SSD");
 
     }
     // TODO: Cancela este envío, eliminándolo de la lista de envíos del porte y del cliente correspondiente
     public boolean cancelar() {
-
+        return ((this.porte.desocuparHueco(this.localizador)&&this.cliente.cancelarEnvio(this.localizador)));
     }
 
     /**
@@ -86,19 +138,29 @@ public class Envio {
      *     Precio: 13424,56 SSD
      */
     public boolean generarFactura(String fichero) {
+        PrintWriter factura = null;
+        boolean aux = true;
         try {
-
-
-
-
-
-
-
-
-            return true;
+            factura = new PrintWriter(fichero+".txt");
+            factura.println("-----------------------------------------------------"+
+                          "\n--------- Factura del envío PM1111AAAABBBBC ---------"+
+                          "\n-----------------------------------------------------"+
+                          "\nPorte: "+this.porte.getID()+
+                          "\nOrigen: "+this.porte.getOrigen()+
+                          "\nDestino: "+this.porte.getDestino()+
+                          "\nSalida: "+this.porte.getSalida()+
+                          "\nLlegada: "+this.porte.getLlegada()+
+                          "\nCliente: "+this.cliente.toString()+
+                          "\nHueco: "+getHueco()+
+                          "\nPrecio: "+this.porte.getPrecio()+" SSD");
         } catch (FileNotFoundException e) {
-            return false;
+            aux = false;
+        }finally {
+            if(factura!=null){
+                factura.close();
+            }
         }
+        return aux;
     }
 
 
@@ -111,12 +173,19 @@ public class Envio {
      * @param idPorte
      * @return
      */
+    //                                       P R E G U N T A R   S I   S E   P U E D E  H A C E R   A S I
     public static String generarLocalizador(Random rand, String idPorte) {
-        StringBuilder localizador = new StringBuilder(idPorte);
-
-
-
-        return localizador.toString();
+        char aux ;
+        StringBuilder letrasAleatorias = new StringBuilder();
+        for(int j =0; j<9;j++) {
+            aux = '@';
+            int aleatorio = (rand.nextInt(25));
+            for (int i = 0; i <= aleatorio; i++) {
+                aux++;
+            }
+            letrasAleatorias.append(aux);
+        }
+        return idPorte + letrasAleatorias;
     }
 
 
@@ -131,9 +200,13 @@ public class Envio {
      * @return Envio para el porte y cliente especificados
      */
     public static Envio altaEnvio(Scanner teclado, Random rand, Porte porte, Cliente cliente) {
-
-
-
-        return ;
+        System.out.println("Fila del hueco: ");
+        int fila = teclado.nextInt();
+        System.out.println("Columna del hueco: ");
+        int columna = teclado.nextInt();
+        System.out.println("Precio del envío: ");
+        double precio = teclado.nextDouble();
+        String localizador = generarLocalizador(rand, porte.getID());
+        return new Envio(localizador,porte,cliente,fila,columna,precio);
     }
 }
