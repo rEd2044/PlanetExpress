@@ -29,11 +29,12 @@ public class ListaNaves {
         int ocupacion=0;
         int i=0;
         while(i< naves.length){
-            if(naves == null){
-                i=naves.length;
+            if(naves[i] == null){
+                i++;
+            }else {
+                ocupacion++;
+                i++;
             }
-            ocupacion++;
-            i++;
         }
 
         return ocupacion;

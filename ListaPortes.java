@@ -25,11 +25,12 @@ public class ListaPortes {
         int ocupacion = 0;
         int i = 0;
         while (i < portes.length) {
-            if (portes == null) {
-                i = portes.length;
+            if (portes[i]== null) {
+                i++;
+            }else {
+                ocupacion++;
+                i++;
             }
-            ocupacion++;
-            i++;
         }
         return ocupacion;
     }
