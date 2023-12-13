@@ -95,16 +95,17 @@ public class ListaPortes {
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
         int i = 0;
-        ListaPortes portes1 = new ListaPortes(i);
+        ListaPortes listaPortes=new ListaPortes(i);
         while (i < portes.length) {
             if (getPorte(i).coincide(codigoOrigen, codigoDestino, fecha)) {
                 Porte porte =getPorte(i);
+                listaPortes.insertarPorte(porte);
                 System.out.println("Porte "+porte.toStringSimple());
 
             }
             i++;
         }
-        return portes1;
+        return listaPortes;
     }
 
     /**

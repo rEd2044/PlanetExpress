@@ -1,7 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import com.sun.source.tree.WhileLoopTree;
+
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -227,11 +226,30 @@ public class ListaEnvios {
     public static void leerEnviosCsv(String ficheroEnvios, ListaPortes portes, ListaClientes clientes) {
         Scanner sc = null;
         try {
+            sc = new Scanner(new FileReader(ficheroEnvios + ".csv"));
+            String linea=sc.nextLine();
+            String [] parametros=linea.split(";");
+            while(sc.hasNextLine()){
+                Porte porte=portes.buscarPorte(parametros[1]);
+                Cliente cliente=clientes.buscarClienteEmail(parametros[2]);
+                int fila=Integer.parseInt(parametros[3]);
+                int columna=Integer.parseInt(parametros[4]);
+                double precio=Double.parseDouble(parametros[5]);
+                Envio envio=new Envio(parametros[0],porte,cliente,fila,columna,precio);
+                clientes.insertarCliente(envio.getCliente());
+                portes.insertarPorte(envio.getPorte());
+                linea=sc.nextLine();
+                parametros=linea.split(";");
+
+
+            }
 
         } catch (FileNotFoundException e) {
             System.out.println("No se ha encontrado el fichero de envíos");
         } finally {
-
+            if(sc != null){
+                sc.close();
+            }
         }
     }
 }
