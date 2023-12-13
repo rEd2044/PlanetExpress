@@ -232,7 +232,8 @@ public class Porte {
      * @return ejemplo -> "PM0123"
      */
     public static String generarID(Random rand) {
-        return "PM"+rand;
+        int random= rand.nextInt(0,9999);
+        return "PM"+random;
     }
 
     /**

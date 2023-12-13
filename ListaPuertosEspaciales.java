@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -147,11 +150,26 @@ public class ListaPuertosEspaciales {
         ListaPuertosEspaciales listaPuertosEspaciales = new ListaPuertosEspaciales(capacidad);
         Scanner sc = null;
         try {
+            sc= new Scanner(new FileReader(fichero+".csv"));
+            String linea=sc.nextLine();
+            String [] parametros=linea.split(";");
+            while(sc.hasNextLine()) {
+                double radio=Double.parseDouble(parametros[2]);
+                double azimut=Double.parseDouble(parametros[3]);
+                double polar=Double.parseDouble(parametros[4]);
+                int numMuelles=Integer.parseInt(parametros[5]);
+                PuertoEspacial puertoEspacial = new PuertoEspacial(parametros[0],parametros[1],radio,azimut,polar,numMuelles);
+                listaPuertosEspaciales.insertarPuertoEspacial(puertoEspacial);
+                linea=sc.nextLine();
+                parametros=linea.split(";");
+            }
 
         } catch (Exception e) {
             return null;
         } finally {
-
+            if(sc != null){
+                sc.close();
+            }
         }
         return listaPuertosEspaciales;
     }

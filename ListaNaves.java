@@ -1,3 +1,7 @@
+import javax.imageio.IIOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
@@ -147,11 +151,24 @@ public class ListaNaves {
         ListaNaves listaNaves = new ListaNaves(capacidad);
         Scanner sc = null;
         try {
-
+            sc = new Scanner(new FileReader(fichero+".csv"));
+            String linea=sc.nextLine();
+            String [] parametros=linea.split(";");
+            while(sc.hasNextLine()) {
+                int columna = Integer.parseInt(parametros[3]);
+                int fila = Integer.parseInt(parametros[4]);
+                float alcance = Float.parseFloat(parametros[5]);
+                Nave nave = new Nave(parametros[0], parametros[1], parametros[2], columna, fila, alcance);
+                listaNaves.insertarNave(nave);
+                linea=sc.nextLine();
+                parametros=linea.split(";");
+            }
         } catch (Exception e) {
             return null;
         } finally {
-
+           if(sc !=null){
+               sc.close();
+           }
         }
         return listaNaves;
     }

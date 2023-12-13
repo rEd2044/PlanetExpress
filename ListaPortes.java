@@ -97,7 +97,8 @@ public class ListaPortes {
         ListaPortes portes1 = new ListaPortes(i);
         while (i < portes.length) {
             if (getPorte(i).coincide(codigoOrigen, codigoDestino, fecha)) {
-                getPorte(i);
+                Porte porte =getPorte(i);
+                System.out.println("Porte "+porte.toStringSimple());
 
             }
             i++;
@@ -191,12 +192,22 @@ public class ListaPortes {
         Scanner sc = null;
         try {
             sc = new Scanner(new FileReader(fichero + ".csv"));
-            String contenido;
+            String linea=sc.nextLine();
+            String [] parametros=linea.split(";");
             while (sc.hasNextLine()) {
-                contenido = sc.nextLine();
-                System.out.println(contenido);
+                Nave nave=naves.buscarNave(parametros[1]);
+                PuertoEspacial origen=puertosEspaciales.buscarPuertoEspacial(parametros[2]);
+                int muelleorigen=Integer.parseInt(parametros[3]);
+                Fecha salida=Fecha.fromString(parametros[4]);
+                PuertoEspacial destino=puertosEspaciales.buscarPuertoEspacial(parametros[5]);
+                int muelledestino=Integer.parseInt(parametros[6]);
+                Fecha llegada=Fecha.fromString(parametros[7]);
+                double precio=Double.parseDouble(parametros[8]);
+                Porte porte=new Porte(parametros[0],nave,origen,muelleorigen,salida,destino,muelledestino,llegada,precio);
+                listaPortes.insertarPorte(porte);
+                linea=sc.nextLine();
+                parametros=linea.split(";");
             }
-
         } catch (Exception e) {
             return null;
         } finally {
