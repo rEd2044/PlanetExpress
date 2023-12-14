@@ -50,7 +50,6 @@ public class PlanetExpress {
      * @param ficheroEnvios
      */
     public void cargarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
-        //Metodo para los metocdos de leer que faltan
         ListaPuertosEspaciales puertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,maxPuertosEspaciales);
         ListaNaves naves=ListaNaves.leerNavesCsv(ficheroNaves,maxNaves);
         ListaPortes portes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,puertosEspaciales,naves);
@@ -117,11 +116,23 @@ public class PlanetExpress {
      */
     public void contratarEnvio(Scanner teclado, Random rand, Porte porte) {
         if (porte != null) {
-
-
-
-
+            char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
+            while(sino!='e' || sino!='n'){
+                System.out.println("El valor de entrada debe ser 'n' o 'e'");
+                sino =Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
+            }
+            if(sino=='e'){
+                Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
+                Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
+                System.out.println("Envío "+envio.getLocalizador()+" creado correctamente");
+            }else {
+                Cliente cliente=Cliente.altaCliente(teclado,listaClientes,maxEnviosPorCliente);
+                listaClientes.insertarCliente(cliente);
+                Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
+                System.out.println("Envío "+envio.getLocalizador()+" creado correctamente");
+            }
         }
+
     }
 
 
@@ -198,33 +209,40 @@ public class PlanetExpress {
                 case 3:     // TODO: Buscar Porte
                     planetExpress.buscarPorte(teclado);
                     Porte porte=listaPortes.seleccionarPorte(teclado,"Seleccione un porte: ","CANCELAR");
-                    char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
-                    while(sino!='e' || sino!='n'){
-                        System.out.println("El valor de entrada debe ser 'n' o 'e'");
-                        sino =Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
+                    while(porte==null){
+                        porte=listaPortes.seleccionarPorte(teclado,"Seleccione un porte: ","CANCELAR");
                     }
-                    if(sino=='e'){
-                        System.out.print("Email del cliente: ");
-                        String email=teclado.nextLine();
-                        Cliente cliente=listaClientes.buscarClienteEmail(email);
-                        while(cliente==null) {
-                            System.out.println("Email no encontrado");
-                            System.out.print("Email del cliente: ");
-                            email=teclado.nextLine();
-                            cliente=listaClientes.buscarClienteEmail(email);
-                        }
-                        Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
-                        System.out.println("Envío "+envio.getLocalizador()+" creado correctamente");
-                    }else {
-
-                    }
+                    planetExpress.contratarEnvio(teclado,rand,porte);
                     break;
                 case 4:     // TODO: Listado de envíos de un cliente
-
+                    Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
+                    Envio envio=listaEnvios.seleccionarEnvio(teclado,"Seleccione un envío: ");
+                    char sino=Utilidades.leerLetra(teclado,"¿Cancelar envío (c), o generar factura (f)?",'a','z');
+                    while(sino!='c' || sino !='f') {
+                        System.out.println("El valor de entrada debe ser 'c' o 'f'");
+                        sino = Utilidades.leerLetra(teclado, "¿Cancelar envío (c), o generar factura (f)?", 'a', 'z');
+                    }if(sino =='f'){
+                        System.out.println("Nombre del fichero: ");
+                        String nomFactura=teclado.nextLine();
+                        envio.generarFactura(nomFactura);
+                    }else{
+                        if(envio.cancelar()){
+                            System.out.println("El envió se cancelado correctamente");
+                        }else{
+                            System.out.println("El envio no se ha podido cancelar");
+                        }
+                    }
                     break;
                 case 5:     // TODO: Lista de envíos de un porte
-
-
+                    if(listaPortes.getOcupacion()==0){
+                        System.out.println("Lista esta vacía");
+                    }else {
+                        listaPortes.listarPortes();
+                        porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte", "CANCELAR");
+                        System.out.println("Nombre del fichero: ");
+                        String nomFich = teclado.nextLine();
+                        porte.generarListaEnvios(nomFich);
+                    }
                     break;
             }
         } while (opcion != 0);
