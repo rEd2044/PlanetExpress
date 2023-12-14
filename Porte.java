@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.invoke.StringConcatFactory;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Random;
@@ -233,7 +234,22 @@ public class Porte {
      */
     public static String generarID(Random rand) {
         int random= rand.nextInt(0,9999);
-        return "PM"+random;
+        if (random <= 10) {
+            String Random="000"+random;
+            return "PM"+Random;
+        }else{
+            if(random<=100){
+                String Random="00"+random;
+                return "PM"+Random;
+            }else{
+                if(random <= 1000){
+                    String Random="0"+random;
+                    return "PM"+Random;
+                }else{
+                    return "PM"+random;
+                }
+            }
+        }
     }
 
     /**
