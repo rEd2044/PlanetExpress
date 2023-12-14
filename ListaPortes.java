@@ -113,7 +113,7 @@ public class ListaPortes {
      */
     public void listarPortes() {
         for (Porte port : portes) {
-            System.out.println(port);
+            System.out.println(port.toStringSimple());
         }
     }
 

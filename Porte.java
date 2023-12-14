@@ -217,9 +217,10 @@ public class Porte {
             for (int i=0; i<listaEnvios.getOcupacion() ;i++){
                 salida.print(envios1[i]);
             }
+            System.out.println("Fichero creado correctamente");
             return true;
         } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Fichero no creado correctamente");
             return false;
         }
     }
