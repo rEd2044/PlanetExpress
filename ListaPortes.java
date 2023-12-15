@@ -169,7 +169,7 @@ public class ListaPortes {
             }
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("IOException al escribir: " + e.getMessage());
+            System.out.println("Error de escritura en fichero "+fichero+".csv");
             return false;
         } finally {
             if (salida != null) {
@@ -211,6 +211,7 @@ public class ListaPortes {
                 parametros=linea.split(";");
             }
         } catch (Exception e) {
+            System.out.println("Error de lectura de fichero "+fichero+".csv");
             return null;
         } finally {
             if (sc != null) {

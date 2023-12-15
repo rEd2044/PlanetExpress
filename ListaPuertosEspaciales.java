@@ -130,6 +130,7 @@ public class ListaPuertosEspaciales {
             }
             return true;
         } catch (Exception e) {
+            System.out.println("Error de escritura en fichero "+nombre+".csv");
             return false;
         } finally {
             if(pw !=null){
@@ -166,6 +167,7 @@ public class ListaPuertosEspaciales {
             }
 
         } catch (Exception e) {
+            System.out.println("Error de lectura de fichero "+fichero+".csv");
             return null;
         } finally {
             if(sc != null){
