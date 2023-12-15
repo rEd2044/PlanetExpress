@@ -50,14 +50,13 @@ public class PlanetExpress {
      * @param ficheroEnvios
      */
     public void cargarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
+        //No se si esta bien pero entiendo que hay que hacer esto
         ListaPuertosEspaciales puertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,maxPuertosEspaciales);
         ListaNaves naves=ListaNaves.leerNavesCsv(ficheroNaves,maxNaves);
         ListaPortes portes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,puertosEspaciales,naves);
         ListaClientes clientes=ListaClientes.leerClientesCsv(ficheroClientes,maxClientes,maxEnviosPorCliente);
         ListaEnvios.leerEnviosCsv(ficheroEnvios,portes,clientes);
-
-
-
+        PlanetExpress planetExpress=new PlanetExpress(listaPuertosEspaciales.getOcupacion(),listaNaves.getOcupacion(),listaPortes.getOcupacion(),listaClientes.getOcupacion(),maxEnviosPorCliente);
     }
 
 
@@ -71,8 +70,13 @@ public class PlanetExpress {
      * @param ficheroEnvios
      */
     public void guardarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
-
-
+        //No se si esta bien pero entiendo que hay que hacer esto
+        listaPuertosEspaciales.escribirPuertosEspacialesCsv(ficheroPuertos);
+        listaNaves.escribirNavesCsv(ficheroNaves);
+        listaClientes.escribirClientesCsv(ficheroClientes);
+        listaPortes.escribirPortesCsv(ficheroPortes);
+        ListaEnvios listaEnvios=new ListaEnvios(maxEnviosPorCliente);
+        listaEnvios.aniadirEnviosCsv(ficheroEnvios);
 
     }
     public boolean maxPortesAlcanzado() {
@@ -190,16 +194,14 @@ public class PlanetExpress {
             opcion = menu(teclado);
             switch (opcion) {
                 case 1:     // TODO: Alta de Porte
-                    boolean llenaPortes=listaPortes.estaLlena();
-                    if(llenaPortes){
+                    if(planetExpress.maxPortesAlcanzado()){
                         System.out.println("No se pueden dar de alta más vuelos");
                     }else{
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente
-                    boolean llenaClientes=listaClientes.estaLlena();
-                    if(llenaClientes){
+                    if(planetExpress.maxClientesAlcanzado()){
                         System.out.println("No se ha podido dar de alta más clientes ");
                     }else {
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
