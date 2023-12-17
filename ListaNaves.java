@@ -133,6 +133,7 @@ public class ListaNaves {
             }
             return true;
         } catch (Exception e) {
+            System.out.println("Error de escritura en fichero "+nombre+".csv");
             return false;
         } finally {
             if(pw !=null){
@@ -165,6 +166,7 @@ public class ListaNaves {
                 parametros=linea.split(";");
             }
         } catch (Exception e) {
+            System.out.println("Error de lectura del fichero "+fichero+".csv");
             return null;
         } finally {
            if(sc !=null){

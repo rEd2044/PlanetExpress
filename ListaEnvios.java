@@ -207,12 +207,26 @@ public class ListaEnvios {
     public boolean aniadirEnviosCsv(String fichero) {
         PrintWriter pw = null;
         try {
-
+            pw =new PrintWriter(fichero+".csv");
+            if(fichero==null){
+                for(Envio envio:envios){
+                    pw.print(envio);
+                }
+            }else{
+                FileWriter fw=new FileWriter(fichero+".csv",true);
+                pw= new PrintWriter(fw);
+                for(Envio envio:envios){
+                    pw.print(envio);
+                }
+            }
             return true;
         } catch (Exception e) {
+            System.out.println("Error de escritura en fichero "+fichero+".csv");
             return false;
         } finally{
-
+            if(pw !=null){
+                pw.close();
+            }
         }
     }
 
@@ -243,9 +257,10 @@ public class ListaEnvios {
 
 
             }
-
         } catch (FileNotFoundException e) {
-            System.out.println("No se ha encontrado el fichero de envíos");
+            System.out.println("Fichero" + ficheroEnvios + ".csv no encontrado");
+        }catch (Exception e){
+            System.out.println("Error de lectura de fichero " + ficheroEnvios + ".csv");
         } finally {
             if(sc != null){
                 sc.close();
