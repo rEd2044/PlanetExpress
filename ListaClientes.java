@@ -128,6 +128,7 @@ public class ListaClientes {
                 salida.println(clientes[i].getNombre() + ";" + clientes[i].getApellidos() + ";" + clientes[i].getEmail());
             }
         } catch (FileNotFoundException e) {
+            System.out.println("Error de escritura en fichero "+fichero);
             return false;
         } finally {
             if (salida != null) {
@@ -148,22 +149,19 @@ public class ListaClientes {
      */
     public static ListaClientes leerClientesCsv(String fichero, int capacidad, int maxEnviosPorCliente) {
         ListaClientes listaClientes = null;
-        Scanner sc = null;
-        try {
-            sc = new Scanner(new BufferedReader(new FileReader(fichero)));
-            do {
-                String linea = sc.nextLine();
-                String[] parametros = linea.split(";");
-                Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
+        try (Scanner sc = new Scanner(new FileReader(fichero))) {
+            String linea = String.valueOf(sc.hasNextLine());
+            String[] parametros = linea.split(";");
+            while (sc.hasNextLine()) {
+                Cliente cliente=new Cliente(parametros[0],parametros[1],parametros[2],maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
-            } while (sc.hasNextLine());
+                linea = sc.nextLine();
+                parametros = linea.split(";");
+            }
 
         } catch (FileNotFoundException e) {
+            System.out.println("Error de lectura del fichero " + fichero);
             return null;
-        } finally {
-            if (sc != null) {
-                sc.close();
-            }
         }
         return listaClientes;
     }
