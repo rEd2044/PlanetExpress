@@ -7,11 +7,10 @@ import java.util.Scanner;
 
 /**
  * Description of the class
- * <p>
- * Marcos Cerrada García
- * Mario Blasco Puente
  *
- * @version 1.0
+ * @author
+ * @author
+ * @version     1.0
  */
 public class ListaClientes {
     private Cliente[] clientes;
@@ -52,8 +51,7 @@ public class ListaClientes {
         }
         return aux;
     }
-
-    // TODO: Devuelve el cliente dada el indice
+	// TODO: Devuelve el cliente dada el indice
     public Cliente getCliente(int i) {
         if (clientes[i] != null) {
             return clientes[i];
@@ -125,7 +123,7 @@ public class ListaClientes {
     public boolean escribirClientesCsv(String fichero) {
         PrintWriter salida = null;
         try {
-            salida = new PrintWriter(fichero + ".csv");
+            salida = new PrintWriter(fichero);
             for (int i = 0; i < clientes.length; i++) {
                 salida.println(clientes[i].getNombre() + ";" + clientes[i].getApellidos() + ";" + clientes[i].getEmail());
             }
@@ -152,7 +150,7 @@ public class ListaClientes {
         ListaClientes listaClientes = null;
         Scanner sc = null;
         try {
-            sc = new Scanner(new BufferedReader(new FileReader(fichero + ".csv")));
+            sc = new Scanner(new BufferedReader(new FileReader(fichero)));
             do {
                 String linea = sc.nextLine();
                 String[] parametros = linea.split(";");
