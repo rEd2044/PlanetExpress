@@ -207,13 +207,13 @@ public class ListaEnvios {
     public boolean aniadirEnviosCsv(String fichero) {
         PrintWriter pw = null;
         try {
-            pw =new PrintWriter(fichero+".csv");
+            pw =new PrintWriter(fichero);
             if(fichero==null){
                 for(Envio envio:envios){
                     pw.print(envio);
                 }
             }else{
-                FileWriter fw=new FileWriter(fichero+".csv",true);
+                FileWriter fw=new FileWriter(fichero,true);
                 pw= new PrintWriter(fw);
                 for(Envio envio:envios){
                     pw.print(envio);
@@ -221,7 +221,7 @@ public class ListaEnvios {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("Error de escritura en fichero "+fichero+".csv");
+            System.out.println("Error de escritura en fichero "+fichero);
             return false;
         } finally{
             if(pw !=null){
@@ -240,7 +240,7 @@ public class ListaEnvios {
     public static void leerEnviosCsv(String ficheroEnvios, ListaPortes portes, ListaClientes clientes) {
         Scanner sc = null;
         try {
-            sc = new Scanner(new FileReader(ficheroEnvios + ".csv"));
+            sc = new Scanner(new FileReader(ficheroEnvios));
             String linea=sc.nextLine();
             String [] parametros=linea.split(";");
             while(sc.hasNextLine()){
@@ -258,9 +258,9 @@ public class ListaEnvios {
 
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Fichero" + ficheroEnvios + ".csv no encontrado");
+            System.out.println("Fichero" + ficheroEnvios + " no encontrado");
         }catch (Exception e){
-            System.out.println("Error de lectura de fichero " + ficheroEnvios + ".csv");
+            System.out.println("Error de lectura de fichero " + ficheroEnvios );
         } finally {
             if(sc != null){
                 sc.close();

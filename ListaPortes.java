@@ -157,7 +157,7 @@ public class ListaPortes {
     public boolean escribirPortesCsv(String fichero) {
         PrintWriter salida = null;
         try {
-            salida = new PrintWriter(fichero + ".csv");
+            salida = new PrintWriter(fichero);
             if (fichero == null) {
                 for (Porte por : portes) {
                     salida.print(por);
@@ -169,7 +169,7 @@ public class ListaPortes {
             }
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("Error de escritura en fichero "+fichero+".csv");
+            System.out.println("Error de escritura en fichero "+fichero);
             return false;
         } finally {
             if (salida != null) {
@@ -193,10 +193,10 @@ public class ListaPortes {
         ListaPortes listaPortes = new ListaPortes(capacidad);
         Scanner sc = null;
         try {
-            sc = new Scanner(new FileReader(fichero + ".csv"));
-            String linea=sc.nextLine();
-            String [] parametros=linea.split(";");
-            while (sc.hasNextLine()) {
+            sc = new Scanner(new FileReader(fichero));
+            do{
+                String linea= sc.nextLine();
+                String [] parametros=linea.split(";");
                 Nave nave=naves.buscarNave(parametros[1]);
                 PuertoEspacial origen=puertosEspaciales.buscarPuertoEspacial(parametros[2]);
                 int muelleorigen=Integer.parseInt(parametros[3]);
@@ -207,11 +207,9 @@ public class ListaPortes {
                 double precio=Double.parseDouble(parametros[8]);
                 Porte porte=new Porte(parametros[0],nave,origen,muelleorigen,salida,destino,muelledestino,llegada,precio);
                 listaPortes.insertarPorte(porte);
-                linea=sc.nextLine();
-                parametros=linea.split(";");
-            }
+            }while (sc.hasNextLine());
         } catch (Exception e) {
-            System.out.println("Error de lectura de fichero "+fichero+".csv");
+            System.out.println("Error de lectura de fichero "+fichero);
             return null;
         } finally {
             if (sc != null) {

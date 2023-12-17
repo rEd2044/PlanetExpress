@@ -19,10 +19,10 @@ public class Utilidades {
      */
     public static int leerNumero(Scanner teclado, String mensaje, int minimo, int maximo) {
         int numero;
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         numero=teclado.nextInt();
         while(numero<minimo || numero>maximo){
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             numero=teclado.nextInt();
         }
         return numero;
@@ -41,7 +41,7 @@ public class Utilidades {
         System.out.println(mensaje);
         numero=teclado.nextInt();
         while(numero<minimo || numero>maximo){
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             numero=teclado.nextInt();
         }
         return numero;
@@ -57,10 +57,10 @@ public class Utilidades {
      */
     public static double leerNumero(Scanner teclado, String mensaje, double minimo, double maximo) {
         double numero;
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         numero=teclado.nextInt();
         while(numero<minimo || numero>maximo){
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             numero=teclado.nextInt();
         }
 
@@ -77,10 +77,10 @@ public class Utilidades {
      */
     public static char leerLetra(Scanner teclado, String mensaje, char minimo, char maximo) {
         char letra;
-        System.out.println(mensaje);
+        System.out.print(mensaje);
         letra=teclado.nextLine().charAt(0);
         while(letra<minimo || letra>maximo){
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             letra=teclado.nextLine().charAt(0);
         }
         return letra;

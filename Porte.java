@@ -267,48 +267,15 @@ public class Porte {
      */
     public static Porte altaPorte(Scanner teclado, Random rand, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves, ListaPortes portes) {
         String id=generarID(rand);
-        System.out.print("Ingrese código de puerto Origen: ");
-        String codigorigen = teclado.nextLine();
-        PuertoEspacial puertoEspacial = puertosEspaciales.buscarPuertoEspacial(codigorigen);
-        while(puertoEspacial!=null){
-            System.out.print("Ingrese código de puerto Origen: ");
-             codigorigen = teclado.nextLine();
-             puertoEspacial = puertosEspaciales.buscarPuertoEspacial(codigorigen);
-        }
-        System.out.print("Ingrese el muelle de Origen (1 - 4): ");
-        int muelleOrigen=teclado.nextInt();
-        while(muelleOrigen>4 ||muelleOrigen<1){
-            System.out.print("Ingrese el muelle de Origen (1 - 4): ");
-            muelleOrigen=teclado.nextInt();
-        }
-        System.out.print("Ingrese código de puerto Destino: ");
-        String codigoDestino = teclado.nextLine();
-        PuertoEspacial puertoEspacial1=puertosEspaciales.buscarPuertoEspacial(codigoDestino);
-        while(puertoEspacial1 !=null){
-            System.out.print("Ingrese código de puerto Destino: ");
-            codigoDestino = teclado.nextLine();
-            puertoEspacial1=puertosEspaciales.buscarPuertoEspacial(codigoDestino);
-        }
-        System.out.print("Ingrese código de puerto Destino: ");
-        int muelleDestino=teclado.nextInt();
-        while(muelleDestino>6 || muelleDestino<1){
-            System.out.print("Ingrese código de puerto Destino: ");
-            muelleDestino=teclado.nextInt();
-        }
+        PuertoEspacial puertoEspacial = puertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese código de puerto Origen: ");
+        int muelleOrigen=Utilidades.leerNumero(teclado,"Ingrese el muelle de Origen (1-4): ",1,4);
+        PuertoEspacial puertoEspacial1=puertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese código de puerto Destino: ");
+        int muelleDestino=Utilidades.leerNumero(teclado,"Ingrese Terminal Destino (1-6): ",1,6);
         System.out.print("Ingrese matrícula de la nave: ");
         String matricula= teclado.nextLine();
-        while(naves.buscarNave(matricula)==null){
-            System.out.print("Matrícula de nave  no encontrada");
-            System.out.print("Ingrese matrícula de la nave: ");
-            matricula= teclado.nextLine();
-        }
-        Nave nave1=naves.buscarNave(matricula);
-        double alcance= nave1.getAlcance();
-        double distancia=puertoEspacial.distancia(puertoEspacial1);
-        while(distancia>alcance){
-            System.out.print("Nave seleccionado con alcance insuficiente" );
-            System.out.print("Ingrese matrícula de la nave: ");
-            matricula= teclado.nextLine();
+        Nave nave=naves.buscarNave(matricula);
+        while(nave==null){
+            nave=naves.seleccionarNave(teclado,"Ingrese matrícula de la nave: ",nave.getAlcance());
         }
         Fecha fechasalida=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de salida:");
         int dia= fechasalida.getDia(),
@@ -334,7 +301,7 @@ public class Porte {
             System.out.print("Ingrese precio de pasaje: ");
             precio=teclado.nextDouble();
         }
-        Porte porte=new Porte(id,nave1,puertoEspacial,muelleOrigen,fechasalida,puertoEspacial1,muelleDestino,fechallegada,precio);
+        Porte porte=new Porte(id,nave,puertoEspacial,muelleOrigen,fechasalida,puertoEspacial1,muelleDestino,fechallegada,precio);
         portes.insertarPorte(porte);
         return porte;
     }

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -51,12 +52,12 @@ public class PlanetExpress {
      */
     public void cargarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
         //No se si esta bien pero entiendo que hay que hacer esto
-        ListaPuertosEspaciales puertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,maxPuertosEspaciales);
-        ListaNaves naves=ListaNaves.leerNavesCsv(ficheroNaves,maxNaves);
-        ListaPortes portes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,puertosEspaciales,naves);
-        ListaClientes clientes=ListaClientes.leerClientesCsv(ficheroClientes,maxClientes,maxEnviosPorCliente);
-        ListaEnvios.leerEnviosCsv(ficheroEnvios,portes,clientes);
-        PlanetExpress planetExpress=new PlanetExpress(listaPuertosEspaciales.getOcupacion(),listaNaves.getOcupacion(),listaPortes.getOcupacion(),listaClientes.getOcupacion(),maxEnviosPorCliente);
+        listaPuertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,this.maxPuertosEspaciales);
+        listaNaves=ListaNaves.leerNavesCsv(ficheroNaves,this.maxNaves);
+        listaPortes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,listaPuertosEspaciales,listaNaves);
+        listaClientes=ListaClientes.leerClientesCsv(ficheroClientes,maxClientes,maxEnviosPorCliente);
+        ListaEnvios.leerEnviosCsv(ficheroEnvios,listaPortes,listaClientes);
+        PlanetExpress planetExpress=new PlanetExpress(listaPuertosEspaciales.getOcupacion(),listaNaves.getOcupacion(),maxPortes,maxClientes,maxEnviosPorCliente);
     }
 
 
@@ -77,6 +78,7 @@ public class PlanetExpress {
         listaPortes.escribirPortesCsv(ficheroPortes);
         ListaEnvios listaEnvios=new ListaEnvios(maxEnviosPorCliente);
         listaEnvios.aniadirEnviosCsv(ficheroEnvios);
+
 
     }
     public boolean maxPortesAlcanzado() {
@@ -153,7 +155,7 @@ public class PlanetExpress {
                 "4. Mostrar envíos de un cliente\n" +
                 "5. Generar lista de envíos\n" +
                 "0. Salir");
-        return teclado.nextInt();
+        return Utilidades.leerNumero(teclado,"Seleccione opción: ",0,5);
 
     }
 
@@ -176,20 +178,21 @@ public class PlanetExpress {
      * y concluirá la ejecución del mismo: `Número de argumentos incorrecto`.
      */
     public static void main(String[] args) {
+        System.out.println(Arrays.toString(args));
         if (args.length != 10) {
             System.out.println("Número de argumentos incorrecto");
             return;
         }
+        PlanetExpress planetExpress = new PlanetExpress(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]),Integer.parseInt(args[3]),Integer.parseInt(args[4]));
+        planetExpress.cargarDatos(args[5],args[6],args[7],args[8],args[9]);
         Scanner teclado=new Scanner(System.in);
         Random rand =new Random();
         int opcion;
-        ListaPuertosEspaciales listaPuertosEspaciales=new ListaPuertosEspaciales(Integer.parseInt(args[0]));
-        ListaNaves listaNaves=new ListaNaves(Integer.parseInt(args[1]));
-        ListaPortes listaPortes=new ListaPortes(Integer.parseInt(args[2]));
-        ListaClientes listaClientes=new ListaClientes(Integer.parseInt(args[3]));
-        ListaEnvios listaEnvios= new ListaEnvios(Integer.parseInt(args[4]));
-        PlanetExpress planetExpress=new PlanetExpress(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Integer.parseInt(args[2]),Integer.parseInt(args[3]),Integer.parseInt(args[4]));
-        System.out.println("Seleccione una opción ");
+        ListaPuertosEspaciales listaPuertosEspaciales=planetExpress.listaPuertosEspaciales;
+        ListaNaves listaNaves=planetExpress.listaNaves;
+        ListaPortes listaPortes=new ListaPortes(planetExpress.maxPortes);
+        ListaClientes listaClientes=planetExpress.listaClientes;
+        ListaEnvios listaEnvios=new ListaEnvios(planetExpress.maxEnviosPorCliente);
         do {
             opcion = menu(teclado);
             switch (opcion) {
@@ -198,6 +201,7 @@ public class PlanetExpress {
                         System.out.println("No se pueden dar de alta más vuelos");
                     }else{
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
+                        listaPortes.escribirPortesCsv(args[7]);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente

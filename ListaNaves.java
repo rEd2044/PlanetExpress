@@ -81,7 +81,8 @@ public class ListaNaves {
            }
            i++;
        }
-        return null;
+       System.out.println("Matrícula de avión no encontrada");
+       return null;
     }
     // TODO: Muestra por pantalla las naves de la lista con el formato indicado en el enunciado
     public void mostrarNaves() {
@@ -104,11 +105,17 @@ public class ListaNaves {
      */
     public Nave seleccionarNave(Scanner teclado, String mensaje, double alcance) {
         Nave nave = null;
-        do {
+        System.out.println(mensaje);
+        String matricula = teclado.nextLine();
+        nave = buscarNave(matricula);
+        while (alcance <= nave.getAlcance() || nave==null){
+           if(alcance <=nave.getAlcance()){
+               System.out.println("Nave seleccionada con alcance insuficiente");
+           }
             System.out.println(mensaje);
-            String matricula = teclado.nextLine();
+            matricula = teclado.nextLine();
             nave = buscarNave(matricula);
-        }while (alcance<=nave.getAlcance());
+        }
         return nave;
     }
 
@@ -121,7 +128,7 @@ public class ListaNaves {
     public boolean escribirNavesCsv(String nombre) {
         PrintWriter pw = null;
         try {
-            pw=new PrintWriter(nombre+".csv");
+            pw=new PrintWriter(nombre);
             if(nombre==null){
                 for(Nave nav:naves){
                     pw.println(nav);
@@ -133,7 +140,7 @@ public class ListaNaves {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("Error de escritura en fichero "+nombre+".csv");
+            System.out.println("Error de escritura en fichero "+nombre);
             return false;
         } finally {
             if(pw !=null){
@@ -153,7 +160,7 @@ public class ListaNaves {
         ListaNaves listaNaves = new ListaNaves(capacidad);
         Scanner sc = null;
         try {
-            sc = new Scanner(new FileReader(fichero+".csv"));
+            sc = new Scanner(new FileReader(fichero));
             String linea=sc.nextLine();
             String [] parametros=linea.split(";");
             while(sc.hasNextLine()) {
@@ -166,7 +173,7 @@ public class ListaNaves {
                 parametros=linea.split(";");
             }
         } catch (Exception e) {
-            System.out.println("Error de lectura del fichero "+fichero+".csv");
+            System.out.println("Error de lectura del fichero "+fichero);
             return null;
         } finally {
            if(sc !=null){
