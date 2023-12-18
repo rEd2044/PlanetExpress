@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * @author
  * @author
- * @version     1.0
+ * @version 1.0
  */
 public class ListaClientes {
     private Cliente[] clientes;
@@ -51,7 +51,8 @@ public class ListaClientes {
         }
         return aux;
     }
-	// TODO: Devuelve el cliente dada el indice
+
+    // TODO: Devuelve el cliente dada el indice
     public Cliente getCliente(int i) {
         if (clientes[i] != null) {
             return clientes[i];
@@ -128,7 +129,7 @@ public class ListaClientes {
                 salida.println(clientes[i].getNombre() + ";" + clientes[i].getApellidos() + ";" + clientes[i].getEmail());
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error de escritura en fichero "+fichero);
+            System.out.println("Error de escritura en fichero " + fichero);
             return false;
         } finally {
             if (salida != null) {
@@ -148,16 +149,16 @@ public class ListaClientes {
      * @return lista de clientes
      */
     public static ListaClientes leerClientesCsv(String fichero, int capacidad, int maxEnviosPorCliente) {
-        ListaClientes listaClientes = null;
-        try (Scanner sc = new Scanner(new FileReader(fichero))) {
-            String linea = String.valueOf(sc.hasNextLine());
-            String[] parametros = linea.split(";");
-            while (sc.hasNextLine()) {
-                Cliente cliente=new Cliente(parametros[0],parametros[1],parametros[2],maxEnviosPorCliente);
+        ListaClientes listaClientes = new ListaClientes(capacidad);
+        try (Scanner sc = new Scanner(new BufferedReader(new FileReader(fichero)))) {
+            do {
+                String linea = String.valueOf(sc.nextLine());
+                String[] parametros = linea.split(";");
+                Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
-                linea = sc.nextLine();
-                parametros = linea.split(";");
-            }
+
+            } while (sc.hasNextLine());
+
 
         } catch (FileNotFoundException e) {
             System.out.println("Error de lectura del fichero " + fichero);
