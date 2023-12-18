@@ -158,27 +158,21 @@ public class ListaNaves {
      */
     public static ListaNaves leerNavesCsv(String fichero, int capacidad) {
         ListaNaves listaNaves = new ListaNaves(capacidad);
-        Scanner sc = null;
-        try {
-            sc = new Scanner(new FileReader(fichero));
-            String linea=sc.nextLine();
-            String [] parametros=linea.split(";");
-            while(sc.hasNextLine()) {
+        try (Scanner sc = new Scanner(new FileReader(fichero))) {
+            String linea = sc.nextLine();
+            String[] parametros = linea.split(";");
+            while (sc.hasNextLine()) {
                 int columna = Integer.parseInt(parametros[3]);
                 int fila = Integer.parseInt(parametros[4]);
                 float alcance = Float.parseFloat(parametros[5]);
                 Nave nave = new Nave(parametros[0], parametros[1], parametros[2], columna, fila, alcance);
                 listaNaves.insertarNave(nave);
-                linea=sc.nextLine();
-                parametros=linea.split(";");
+                linea = sc.nextLine();
+                parametros = linea.split(";");
             }
         } catch (Exception e) {
-            System.out.println("Error de lectura del fichero "+fichero);
+            System.out.println("Error de lectura del fichero " + fichero);
             return null;
-        } finally {
-           if(sc !=null){
-               sc.close();
-           }
         }
         return listaNaves;
     }

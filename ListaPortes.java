@@ -40,8 +40,9 @@ public class ListaPortes {
         int ocupacion = getOcupacion();
         if (ocupacion == portes.length) {
             return true;
+        }else{
+            return false;
         }
-        return false;
 
     }
 

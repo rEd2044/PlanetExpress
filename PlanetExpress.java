@@ -40,6 +40,7 @@ public class PlanetExpress {
         this.listaNaves=new ListaNaves(maxNaves);
         this.listaClientes=new ListaClientes(maxClientes);
         this.listaPortes=new ListaPortes(maxPortes);
+
     }
     /**
      * TODO: Metodo para leer los datos de los ficheros específicados en el enunciado y los agrega a
@@ -190,7 +191,7 @@ public class PlanetExpress {
         int opcion;
         ListaPuertosEspaciales listaPuertosEspaciales=planetExpress.listaPuertosEspaciales;
         ListaNaves listaNaves=planetExpress.listaNaves;
-        ListaPortes listaPortes=new ListaPortes(planetExpress.maxPortes);
+        ListaPortes listaPortes=planetExpress.listaPortes;
         ListaClientes listaClientes=planetExpress.listaClientes;
         ListaEnvios listaEnvios=new ListaEnvios(planetExpress.maxEnviosPorCliente);
         do {
