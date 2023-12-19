@@ -212,7 +212,7 @@ public class ListaPortes {
                 }
 
             }while (sc.hasNextLine());
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             System.err.println("Error de lectura de fichero "+fichero);
             return  null;
         } finally {
