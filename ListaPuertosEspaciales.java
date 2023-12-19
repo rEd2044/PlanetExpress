@@ -104,7 +104,7 @@ public class ListaPuertosEspaciales {
         PuertoEspacial puertoEspacial = null;
         teclado.nextLine();
         do {
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             String codigo = teclado.nextLine();
             puertoEspacial = buscarPuertoEspacial(codigo);
         }while (puertoEspacial==null);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.SimpleTimeZone;
 
 /**
  * Description of the class
@@ -75,17 +76,13 @@ public class ListaNaves {
      * @return la nave que encontramos o null si no existe
      */
     public Nave buscarNave(String matricula) {
-       int i=0;
-       while(i<getOcupacion()){
-           if(getNave(i)!=null) {
-               if (Objects.equals(matricula, getNave(i).getMatricula())) {
-                   return getNave(i);
-               }
+        Nave nave=null;
+       for(int i=0;i<getOcupacion();i++){
+           if(Objects.equals(matricula, getNave(i).getMatricula())){
+               nave=getNave(i);
            }
-           i++;
        }
-       System.out.println("Matrícula de avión no encontrada");
-       return null;
+       return nave;
     }
     // TODO: Muestra por pantalla las naves de la lista con el formato indicado en el enunciado
     public void mostrarNaves() {
@@ -109,18 +106,31 @@ public class ListaNaves {
      * @return
      */
     public Nave seleccionarNave(Scanner teclado, String mensaje, double alcance) {
-        Nave nave = null;
-        System.out.println(mensaje);
-        String matricula = teclado.nextLine();
-        nave = buscarNave(matricula);
-        while (alcance <= nave.getAlcance() || nave==null){
-           if(alcance <=nave.getAlcance()){
-               System.out.println("Nave seleccionada con alcance insuficiente");
-           }
-            System.out.println(mensaje);
-            matricula = teclado.nextLine();
-            nave = buscarNave(matricula);
+        Nave nave=null;
+        teclado.nextLine();
+        System.out.print(mensaje);
+        String matricula=teclado.nextLine();
+        while(buscarNave(matricula)==null){
+            System.out.println("Matrícula de avión no encontrada");
+            System.out.print(mensaje);
+            matricula=teclado.nextLine();
+            buscarNave(matricula);
         }
+        nave=buscarNave(matricula);
+        System.out.println(alcance);
+        System.out.println(nave.getAlcance());
+        while(alcance > nave.getAlcance()){
+            System.out.println("Nave seleccionada con alcance insuficiente");
+            System.out.print(mensaje);
+            matricula=teclado.nextLine();
+            while(buscarNave(matricula)==null){
+                System.out.println("Matrícula de avión no encontrada");
+                System.out.print(mensaje);
+                matricula=teclado.nextLine();
+                buscarNave(matricula);
+            }
+        }
+
         return nave;
     }
 

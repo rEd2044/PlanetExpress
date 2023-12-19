@@ -101,7 +101,7 @@ public class Utilidades {
         System.out.println(mensaje);
         System.out.print("Ingrese día: ");
         dia= teclado.nextInt();
-        while (dia<=0 ||dia>=31){
+        while (dia<=0 ||dia>31){
             System.out.print("Ingrese día: ");
             dia= teclado.nextInt();
         }
@@ -113,7 +113,7 @@ public class Utilidades {
         }
         System.out.print("Ingrese año: ");
         anio= teclado.nextInt();
-        while (anio<=0 ||anio>=2024){
+        while (anio<=0 ||anio>2024){
             System.out.print("Ingrese año: ");
             anio= teclado.nextInt();
         }
@@ -138,21 +138,21 @@ public class Utilidades {
         dia=fecha.getDia();
         mes=fecha.getMes();
         anio= fecha.getAnio();
-        System.out.println("Ingrese hora: ");
-         hora= teclado.nextInt();
-        while (hora<0 ||hora>=24){
-            System.out.println("Ingrese hora: ");
+        System.out.print("Ingrese hora: ");
+        hora= teclado.nextInt();
+        while (hora<0 ||hora>24){
+            System.out.print("Ingrese hora: ");
             hora= teclado.nextInt();
         }
         System.out.print("Ingrese minuto: ");
         minuto= teclado.nextInt();
-        while (minuto<0 || minuto>=60){
+        while (minuto<0 || minuto>60){
             System.out.print("Ingrese minuto: ");
             minuto= teclado.nextInt();
         }
         System.out.print("Ingrese segundo: ");
         segundo= teclado.nextInt();
-        while (segundo<0 ||segundo>=60) {
+        while (segundo<0 ||segundo>60) {
             System.out.print("Ingrese segundo: ");
             segundo = teclado.nextInt();
         }

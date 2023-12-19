@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.invoke.StringConcatFactory;
+import java.sql.SQLOutput;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Random;
@@ -272,40 +273,27 @@ public class Porte {
      * @return
      */
     public static Porte altaPorte(Scanner teclado, Random rand, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves, ListaPortes portes) {
-        String id=generarID(rand);
-        PuertoEspacial puertoEspacial = puertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese código de puerto Origen: ");
-        int muelleOrigen=Utilidades.leerNumero(teclado,"Ingrese el muelle de Origen (1-4): ",1,4);
-        PuertoEspacial puertoEspacial1=puertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese código de puerto Destino: ");
-        int muelleDestino=Utilidades.leerNumero(teclado,"Ingrese Terminal Destino (1-6): ",1,6);
+        String id = generarID(rand);
+        PuertoEspacial puertoEspacial = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
+        int muelleOrigen = Utilidades.leerNumero(teclado, "Ingrese el muelle de Origen (1-4): ", 1, 4);
+        PuertoEspacial puertoEspacial1 = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
+        int muelleDestino = Utilidades.leerNumero(teclado, "Ingrese Terminal Destino (1-6): ", 1, 6);
         naves.mostrarNaves();
-        System.out.print("Ingrese matrícula de la nave: ");
-        String matricula= teclado.nextLine();
-        Nave nave=naves.buscarNave(matricula);
-        Fecha fechasalida=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de salida:");
-        int dia= fechasalida.getDia(),
-        mes= fechasalida.getMes(),
-        anio= fechasalida.getAnio();
-        while(!Fecha.comprobarFecha(dia, mes, anio)){
-            fechasalida=Utilidades.leerFecha(teclado,"Introduzca la fecha de salida:");
-        }
-        Fecha fechallegada=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de llegada: ");
-        int diaL=fechallegada.getDia(),
-        mesL=fechallegada.getMes(),
-        anioL=fechallegada.getAnio();
-        while(!Fecha.comprobarFecha(diaL, mesL, anioL)){
-           fechallegada=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de llegada: ");
-        }
-        while(!fechallegada.anterior(fechasalida)){
-            fechasalida=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de salida:");
-            fechallegada=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de llegada: ");
+        Nave nave = naves.seleccionarNave(teclado, "Ingrese matrícula de la nave: ", puertoEspacial1.distancia(puertoEspacial));
+        Fecha fechasalida = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de salida:");
+        Fecha fechallegada = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de llegada: ");
+        while (fechallegada.anterior(fechasalida)) {
+            System.out.println("\n\nLlegada debe ser posterior a salida");
+            fechasalida = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de salida:");
+            fechallegada = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de llegada: ");
         }
         System.out.print("Ingrese precio de pasaje: ");
-        double precio=teclado.nextDouble();
-        while(precio<=0.0){
+        double precio = teclado.nextDouble();
+        while (precio <= 0.0) {
             System.out.print("Ingrese precio de pasaje: ");
-            precio=teclado.nextDouble();
+            precio = teclado.nextDouble();
         }
-        Porte porte=new Porte(id,nave,puertoEspacial,muelleOrigen,fechasalida,puertoEspacial1,muelleDestino,fechallegada,precio);
+        Porte porte = new Porte(id, nave, puertoEspacial, muelleOrigen, fechasalida, puertoEspacial1, muelleDestino, fechallegada, precio);
         portes.insertarPorte(porte);
         return porte;
     }
