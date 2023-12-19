@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -79,9 +80,11 @@ public class ListaPuertosEspaciales {
      */
     public PuertoEspacial buscarPuertoEspacial(String codigo) {
         int i = 0;
-        while (i < lista.length) {
-            if (codigo == getPuertoEspacial(i).getCodigo()) {
-                return getPuertoEspacial(i);
+        while (i < getOcupacion()) {
+            if (getPuertoEspacial(i)!=null) {
+                if (Objects.equals(codigo, getPuertoEspacial(i).getCodigo())) {
+                    return getPuertoEspacial(i);
+                }
             }
             i++;
         }
@@ -99,6 +102,7 @@ public class ListaPuertosEspaciales {
      */
     public PuertoEspacial seleccionarPuertoEspacial(Scanner teclado, String mensaje) {
         PuertoEspacial puertoEspacial = null;
+        teclado.nextLine();
         do {
             System.out.println(mensaje);
             String codigo = teclado.nextLine();

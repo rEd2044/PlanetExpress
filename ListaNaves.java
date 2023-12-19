@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -75,9 +76,11 @@ public class ListaNaves {
      */
     public Nave buscarNave(String matricula) {
        int i=0;
-       while(i<naves.length){
-           if(matricula == getNave(i).getMatricula()){
-                return getNave(i);
+       while(i<getOcupacion()){
+           if(getNave(i)!=null) {
+               if (Objects.equals(matricula, getNave(i).getMatricula())) {
+                   return getNave(i);
+               }
            }
            i++;
        }
@@ -86,8 +89,10 @@ public class ListaNaves {
     }
     // TODO: Muestra por pantalla las naves de la lista con el formato indicado en el enunciado
     public void mostrarNaves() {
-        for(Nave nave:naves){
-            System.out.println(nave);
+        for (Nave nave : naves) {
+            if (nave != null) {
+                System.out.println(nave.toString());
+            }
         }
     }
 
@@ -159,17 +164,17 @@ public class ListaNaves {
     public static ListaNaves leerNavesCsv(String fichero, int capacidad) {
         ListaNaves listaNaves = new ListaNaves(capacidad);
         try (Scanner sc = new Scanner(new FileReader(fichero))) {
-            String linea = sc.nextLine();
-            String[] parametros = linea.split(";");
-            while (sc.hasNextLine()) {
-                int columna = Integer.parseInt(parametros[3]);
-                int fila = Integer.parseInt(parametros[4]);
-                float alcance = Float.parseFloat(parametros[5]);
-                Nave nave = new Nave(parametros[0], parametros[1], parametros[2], columna, fila, alcance);
-                listaNaves.insertarNave(nave);
-                linea = sc.nextLine();
-                parametros = linea.split(";");
-            }
+            do{
+                if(sc.hasNextLine()) {
+                    String linea = sc.nextLine();
+                    String[] parametros = linea.split(";");
+                    int columna = Integer.parseInt(parametros[3]);
+                    int fila = Integer.parseInt(parametros[4]);
+                    float alcance = Float.parseFloat(parametros[5]);
+                    Nave nave = new Nave(parametros[0], parametros[1], parametros[2], columna, fila, alcance);
+                    listaNaves.insertarNave(nave);
+                }
+            }while(sc.hasNextLine());
         } catch (Exception e) {
             System.out.println("Error de lectura del fichero " + fichero);
             return null;

@@ -150,14 +150,14 @@ public class PlanetExpress {
      * @return opción seleccionada
      */
     public static int menu(Scanner teclado) {
-        System.out.println("1. Alta de Porte\n" +
-                "2. Alta de Cliente\n" +
-                "3. Buscar Porte\n" +
-                "4. Mostrar envíos de un cliente\n" +
-                "5. Generar lista de envíos\n" +
-                "0. Salir");
-        return Utilidades.leerNumero(teclado,"Seleccione opción: ",0,5);
-
+        System.out.println("""
+                1. Alta de Porte
+                2. Alta de Cliente
+                3. Buscar Porte
+                4. Mostrar envíos de un cliente
+                5. Generar lista de envíos
+                0. Salir""");
+        return Utilidades.leerNumero(teclado,"Seleccione una opción: ",0,5);
     }
 
     /**
@@ -179,7 +179,6 @@ public class PlanetExpress {
      * y concluirá la ejecución del mismo: `Número de argumentos incorrecto`.
      */
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(args));
         if (args.length != 10) {
             System.out.println("Número de argumentos incorrecto");
             return;

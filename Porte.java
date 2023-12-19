@@ -53,6 +53,7 @@ public class Porte {
         this.muelleDestino=muelleDestino;
         this.llegada=llegada;
         this.precio=precio;
+        this.huecos = new boolean[nave.getFilas()][nave.getColumnas()];
     }
     public String getID() {
         return id;
@@ -157,7 +158,7 @@ public class Porte {
      *  Cidonia(CID) M1 (01/01/2024 11:00:05) en Planet Express One(EP-245732X) por 13424,56 SSD, huecos libres: 10"
      */
     public String toString() {
-        return "Porte "+id+"de "+origen+" "+muelleOrigen+" ("+salida+") a "+destino+" "+muelleOrigen+" ("+llegada+") en"+nave.getMarca()+"("
+        return "Porte "+id+" de "+origen+" "+muelleOrigen+" ("+salida+") a "+destino+" "+muelleOrigen+" ("+llegada+") en "+nave.getMarca()+" ("
                 +nave.getModelo()+nave.getMatricula()+" por "+precio+" SSD, huecos libres: "+numHuecosLibres();
     }
 
@@ -167,7 +168,7 @@ public class Porte {
      * @return ejemplo del formato -> "Porte PM0066 de GGT M5 (01/01/2023 08:15:00) a CID M1 (01/01/2024 11:00:05)"
      */
     public String toStringSimple() {
-        return "Porte"+id+"de "+origen+"("+salida+") a"+destino+"("+llegada+")";
+        return "Porte "+id+" de "+origen+" ("+salida+") a "+destino+" ("+llegada+") ";
     }
 
 
@@ -271,12 +272,10 @@ public class Porte {
         int muelleOrigen=Utilidades.leerNumero(teclado,"Ingrese el muelle de Origen (1-4): ",1,4);
         PuertoEspacial puertoEspacial1=puertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese código de puerto Destino: ");
         int muelleDestino=Utilidades.leerNumero(teclado,"Ingrese Terminal Destino (1-6): ",1,6);
+        naves.mostrarNaves();
         System.out.print("Ingrese matrícula de la nave: ");
         String matricula= teclado.nextLine();
         Nave nave=naves.buscarNave(matricula);
-        while(nave==null){
-            nave=naves.seleccionarNave(teclado,"Ingrese matrícula de la nave: ",nave.getAlcance());
-        }
         Fecha fechasalida=Utilidades.leerFechaHora(teclado,"Introduzca la fecha de salida:");
         int dia= fechasalida.getDia(),
         mes= fechasalida.getMes(),

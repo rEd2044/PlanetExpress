@@ -150,19 +150,27 @@ public class ListaClientes {
      */
     public static ListaClientes leerClientesCsv(String fichero, int capacidad, int maxEnviosPorCliente) {
         ListaClientes listaClientes = new ListaClientes(capacidad);
-        try (Scanner sc = new Scanner(new BufferedReader(new FileReader(fichero)))) {
+        Scanner sc = null;
+        try  {
+         sc = new Scanner(new BufferedReader(new FileReader(fichero)));
             do {
-                String linea = String.valueOf(sc.nextLine());
-                String[] parametros = linea.split(";");
-                Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
-                listaClientes.insertarCliente(cliente);
+                if(sc.hasNextLine()) {
+                    String linea = sc.nextLine();
+                    String[] parametros = linea.split(";");
+                    Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
+                    listaClientes.insertarCliente(cliente);
+                }
 
             } while (sc.hasNextLine());
 
 
         } catch (FileNotFoundException e) {
-            System.out.println("Error de lectura del fichero " + fichero);
+            System.err.println("Fichero no encontrado " + fichero);
             return null;
+        }finally{
+            if (sc != null) {
+                sc.close();
+            }
         }
         return listaClientes;
     }

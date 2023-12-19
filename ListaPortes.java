@@ -193,25 +193,28 @@ public class ListaPortes {
     public static ListaPortes leerPortesCsv(String fichero, int capacidad, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves) {
         ListaPortes listaPortes = new ListaPortes(capacidad);
         Scanner sc = null;
-        try {
-            sc = new Scanner(new FileReader(fichero));
+        try   {
+            sc = new Scanner(new BufferedReader(new FileReader(fichero)));
             do{
-                String linea= sc.nextLine();
-                String [] parametros=linea.split(";");
-                Nave nave=naves.buscarNave(parametros[1]);
-                PuertoEspacial origen=puertosEspaciales.buscarPuertoEspacial(parametros[2]);
-                int muelleorigen=Integer.parseInt(parametros[3]);
-                Fecha salida=Fecha.fromString(parametros[4]);
-                PuertoEspacial destino=puertosEspaciales.buscarPuertoEspacial(parametros[5]);
-                int muelledestino=Integer.parseInt(parametros[6]);
-                Fecha llegada=Fecha.fromString(parametros[7]);
-                double precio=Double.parseDouble(parametros[8]);
-                Porte porte=new Porte(parametros[0],nave,origen,muelleorigen,salida,destino,muelledestino,llegada,precio);
-                listaPortes.insertarPorte(porte);
+                if(sc.hasNextLine()) {
+                    String linea = sc.nextLine();
+                    String[] parametros = linea.split(";");
+                    Nave nave = naves.buscarNave(parametros[1]);
+                    PuertoEspacial origen = puertosEspaciales.buscarPuertoEspacial(parametros[2]);
+                    int muelleorigen = Integer.parseInt(parametros[3]);
+                    Fecha salida = Fecha.fromString(parametros[4]);
+                    PuertoEspacial destino = puertosEspaciales.buscarPuertoEspacial(parametros[5]);
+                    int muelledestino = Integer.parseInt(parametros[6]);
+                    Fecha llegada = Fecha.fromString(parametros[7]);
+                    double precio = Double.parseDouble(parametros[8]);
+                    Porte porte = new Porte(parametros[0], nave, origen, muelleorigen, salida, destino, muelledestino, llegada, precio);
+                    listaPortes.insertarPorte(porte);
+                }
+
             }while (sc.hasNextLine());
-        } catch (Exception e) {
-            System.out.println("Error de lectura de fichero "+fichero);
-            return null;
+        } catch (FileNotFoundException ex) {
+            System.err.println("Error de lectura de fichero "+fichero);
+            return  null;
         } finally {
             if (sc != null) {
                 sc.close();

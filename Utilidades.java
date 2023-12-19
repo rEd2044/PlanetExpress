@@ -25,6 +25,7 @@ public class Utilidades {
             System.out.print(mensaje);
             numero=teclado.nextInt();
         }
+        //teclado.nextLine();
         return numero;
     }
 

@@ -240,7 +240,7 @@ public class ListaEnvios {
     public static void leerEnviosCsv(String ficheroEnvios, ListaPortes portes, ListaClientes clientes) {
         Scanner sc = null;
         try {
-            sc = new Scanner(new FileReader(ficheroEnvios));
+            sc = new Scanner(new BufferedReader(new FileReader(ficheroEnvios )));
             String linea=sc.nextLine();
             String [] parametros=linea.split(";");
             while(sc.hasNextLine()){
