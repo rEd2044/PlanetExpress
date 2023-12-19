@@ -213,7 +213,7 @@ public class ListaPortes {
 
             }while (sc.hasNextLine());
         } catch (Exception ex) {
-            System.err.println("Error de lectura de fichero "+fichero);
+            System.err.println("Error de lectura del fichero "+fichero);
             return  null;
         } finally {
             if (sc != null) {
