@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -150,26 +147,26 @@ public class ListaClientes {
      */
     public static ListaClientes leerClientesCsv(String fichero, int capacidad, int maxEnviosPorCliente) {
         ListaClientes listaClientes = new ListaClientes(capacidad);
-        Scanner sc = null;
-        try  {
-         sc = new Scanner(new BufferedReader(new FileReader(fichero)));
-            do {
-                if(sc.hasNextLine()) {
-                    String linea = sc.nextLine();
-                    String[] parametros = linea.split(";");
-                    Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
-                    listaClientes.insertarCliente(cliente);
-                }
+        BufferedReader leer = null;
+        try {
+            leer = new BufferedReader(new FileReader(fichero));
+            String linea;
+            while ((linea = leer.readLine()) != null) {
+                String[] parametros = linea.split(";");
+                Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
+                listaClientes.insertarCliente(cliente);
 
-            } while (sc.hasNextLine());
-
-
-        } catch (FileNotFoundException e) {
-            System.err.println("Fichero no encontrado " + fichero);
+            }
+        } catch (IOException ex) {
+            System.err.println("Fichero " + fichero+ " no encontrado");
             return null;
-        }finally{
-            if (sc != null) {
-                sc.close();
+        } finally {
+            try {
+                if (leer != null) {
+                    leer.close();
+                }
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
             }
         }
         return listaClientes;

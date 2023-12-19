@@ -54,6 +54,11 @@ public class Porte {
         this.llegada=llegada;
         this.precio=precio;
         this.huecos = new boolean[nave.getFilas()][nave.getColumnas()];
+        for (int i =0; i< nave.getFilas();i++){
+            for(int j = 0; j< nave.getColumnas();j++){
+                huecos[i][j]= true;
+            }
+        }
     }
     public String getID() {
         return id;

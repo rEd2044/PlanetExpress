@@ -241,26 +241,26 @@ public class ListaEnvios {
         Scanner sc = null;
         try {
             sc = new Scanner(new BufferedReader(new FileReader(ficheroEnvios )));
-            String linea=sc.nextLine();
-            String [] parametros=linea.split(";");
-            while(sc.hasNextLine()){
-                Porte porte=portes.buscarPorte(parametros[1]);
-                Cliente cliente=clientes.buscarClienteEmail(parametros[2]);
-                int fila=Integer.parseInt(parametros[3]);
-                int columna=Integer.parseInt(parametros[4]);
-                double precio=Double.parseDouble(parametros[5]);
-                Envio envio=new Envio(parametros[0],porte,cliente,fila,columna,precio);
-                clientes.insertarCliente(envio.getCliente());
-                portes.insertarPorte(envio.getPorte());
-                linea=sc.nextLine();
-                parametros=linea.split(";");
 
+            do{
+                if(sc.hasNextLine()) {
+                    String linea = sc.nextLine();
+                    String[] parametros = linea.split(";");
+                    Porte porte = portes.buscarPorte(parametros[1]);
+                    Cliente cliente = clientes.buscarClienteEmail(parametros[2]);
+                    int fila = Integer.parseInt(parametros[3]);
+                    int columna = Integer.parseInt(parametros[4]);
+                    double precio = Double.parseDouble(parametros[5]);
+                    Envio envio = new Envio(parametros[0], porte, cliente, fila, columna, precio);
+                    clientes.insertarCliente(envio.getCliente());
+                    portes.insertarPorte(envio.getPorte());
+                    linea = sc.nextLine();
+                    parametros = linea.split(";");
+                }
 
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Fichero" + ficheroEnvios + " no encontrado");
+            }while(sc.hasNextLine());
         }catch (Exception e){
-            System.out.println("Error de lectura de fichero " + ficheroEnvios );
+            System.err.println("Fichero " + ficheroEnvios + " no encontrado");
         } finally {
             if(sc != null){
                 sc.close();
