@@ -284,8 +284,8 @@ public class Porte {
         Fecha fechallegada = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de llegada: ");
         while (fechallegada.anterior(fechasalida)) {
             System.out.println("\n\nLlegada debe ser posterior a salida");
-            fechasalida = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de salida:");
-            fechallegada = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de llegada: ");
+            fechasalida = Utilidades.leerFechaHora(teclado, "Fecha de salida:");
+            fechallegada = Utilidades.leerFechaHora(teclado, "Fecha de llegada: ");
         }
         System.out.print("Ingrese precio de pasaje: ");
         double precio = teclado.nextDouble();
@@ -294,7 +294,9 @@ public class Porte {
             precio = teclado.nextDouble();
         }
         Porte porte = new Porte(id, nave, puertoEspacial, muelleOrigen, fechasalida, puertoEspacial1, muelleDestino, fechallegada, precio);
+        System.out.println("\tPorte "+porte.getID()+" creado correctamente");
         portes.insertarPorte(porte);
+
         return porte;
     }
 }

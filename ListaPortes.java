@@ -156,29 +156,22 @@ public class ListaPortes {
      * @return
      */
     public boolean escribirPortesCsv(String fichero) {
-        PrintWriter salida = null;
-        try {
-            salida = new PrintWriter(fichero);
-            if (fichero == null) {
-                for (Porte por : portes) {
-                    salida.print(por);
-                }
-            } else {
-                for (Porte por : portes) {
-                    salida.print(por);
+        try (PrintWriter salida = new PrintWriter(fichero)) {
+            for (int i = 0; i < getOcupacion(); i++) {
+                if (portes[i] != null) {
+                    Porte por = portes[i];
+                    salida.print(por.getID() + ";"+por.getNave().getMatricula()+";" + por.getOrigen().getCodigo() + ";" + por.getMuelleOrigen() + ";" + por.getSalida() + ";" + por.getDestino().getCodigo() + ";" + por.getMuelleDestino() + ";" + por.getLlegada() + ";" + por.getPrecio());
                 }
             }
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("Error de escritura en fichero "+fichero);
+            System.out.println("Error de escritura en fichero " + fichero);
             return false;
-        } finally {
-            if (salida != null) {
-                salida.close();
-            }
         }
 
     }
+    //salida.print(por.getID()+";"+por.getNave()+";"+por.getOrigen()+";"+por.getMuelleOrigen()+";"+por.getSalida()+";"
+    //                            +por.getDestino()+";"+por.getMuelleDestino()+";"+por.getLlegada()+";"+por.getPrecio());
 
     /**
      * TODO: Genera una lista de Portes a partir del fichero CSV, usando los límites especificados como argumentos para

@@ -88,7 +88,7 @@ public class ListaNaves {
     public void mostrarNaves() {
         for (Nave nave : naves) {
             if (nave != null) {
-                System.out.println(nave.toString());
+                System.out.println("\t"+nave.toString());
             }
         }
     }
@@ -111,7 +111,7 @@ public class ListaNaves {
         System.out.print(mensaje);
         String matricula=teclado.nextLine();
         while(buscarNave(matricula)==null){
-            System.out.println("Matrícula de avión no encontrada");
+            System.out.println("\tMatrícula de avión no encontrada");
             System.out.print(mensaje);
             matricula=teclado.nextLine();
             buscarNave(matricula);
@@ -120,7 +120,7 @@ public class ListaNaves {
         System.out.println(alcance);
         System.out.println(nave.getAlcance());
         while(alcance > nave.getAlcance()){
-            System.out.println("Nave seleccionada con alcance insuficiente");
+            System.out.println("\tNave seleccionada con alcance insuficiente");
             System.out.print(mensaje);
             matricula=teclado.nextLine();
             while(buscarNave(matricula)==null){

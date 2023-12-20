@@ -103,11 +103,15 @@ public class ListaPuertosEspaciales {
     public PuertoEspacial seleccionarPuertoEspacial(Scanner teclado, String mensaje) {
         PuertoEspacial puertoEspacial = null;
         teclado.nextLine();
-        do {
+        System.out.print(mensaje);
+        String codigo = teclado.nextLine();
+        puertoEspacial = buscarPuertoEspacial(codigo);
+        while (puertoEspacial==null){
+            System.out.println("\tCódigo de puerto no encontrado");
             System.out.print(mensaje);
-            String codigo = teclado.nextLine();
+            codigo = teclado.nextLine();
             puertoEspacial = buscarPuertoEspacial(codigo);
-        }while (puertoEspacial==null);
+        }
         return puertoEspacial;
     }
 
