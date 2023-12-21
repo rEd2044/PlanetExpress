@@ -95,17 +95,14 @@ public class ListaPortes {
      * @return
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
-        int i = 0;
-        ListaPortes listaPortes=null;
-        while (i < getOcupacion()) {
-            if (getPorte(i).coincide(codigoOrigen, codigoDestino, fecha)) {
-                Porte porte =getPorte(i);
-                listaPortes=new ListaPortes(i);
+        ListaPortes listaPortes = null;
+        for (int i = 0; i < getOcupacion(); i++) {
+            if (portes[i].coincide(codigoOrigen, codigoDestino, fecha)) {
+                Porte porte = portes[i];
+                listaPortes = new ListaPortes(i);
+                System.out.println("Porte " + porte.toStringSimple());
                 listaPortes.insertarPorte(porte);
-                System.out.println("Porte "+porte.toStringSimple());
-
             }
-            i++;
         }
         return listaPortes;
     }
@@ -159,7 +156,7 @@ public class ListaPortes {
             for (int i = 0; i < getOcupacion(); i++) {
                 if (portes[i] != null) {
                     Porte por = portes[i];
-                    salida.print(por.getID() + ";"+por.getNave().getMatricula()+";" + por.getOrigen().getCodigo() + ";" + por.getMuelleOrigen() + ";" + por.getSalida() + ";" + por.getDestino().getCodigo() + ";" + por.getMuelleDestino() + ";" + por.getLlegada() + ";" + por.getPrecio());
+                    salida.println(por.getID() + ";"+por.getNave().getMatricula()+";" + por.getOrigen().getCodigo() + ";" + por.getMuelleOrigen() + ";" + por.getSalida() + ";" + por.getDestino().getCodigo() + ";" + por.getMuelleDestino() + ";" + por.getLlegada() + ";" + por.getPrecio());
                 }
             }
             return true;

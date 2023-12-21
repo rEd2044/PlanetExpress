@@ -104,10 +104,8 @@ public class PlanetExpress {
      * @return
      */
     public ListaPortes buscarPorte(Scanner teclado) {
-        PuertoEspacial puertoEspacials=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un código de puerto Origen: ");
-        String codigoOrigen=puertoEspacials.getCodigo();
-        PuertoEspacial puertoEspaciall=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un código de puerto Destino: ");
-        String codigoDestino=puertoEspaciall.getCodigo();
+        String codigoOrigen = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Origen: ").getCodigo();
+        String codigoDestino=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un código de puerto Destino: ").getCodigo();
         Fecha fecha=Utilidades.leerFecha(teclado,"Ingrese la fecha de salida: ");
         int dia= fecha.getDia(),
         mes= fecha.getMes(),
@@ -227,7 +225,12 @@ public class PlanetExpress {
                     if(listaPortes.getOcupacion()==0){
                         System.out.println("La lista esta vacía no se puede buscar");
                     }else {
-                        planetExpress.buscarPorte(teclado);
+                        ListaPortes portes=planetExpress.buscarPorte(teclado);
+                        while(portes==null){
+                            portes=planetExpress.buscarPorte(teclado);
+                        }
+                        System.out.println();
+
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
                         while (porte == null) {
                             porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
