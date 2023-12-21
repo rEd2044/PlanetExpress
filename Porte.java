@@ -274,12 +274,12 @@ public class Porte {
      */
     public static Porte altaPorte(Scanner teclado, Random rand, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves, ListaPortes portes) {
         String id = generarID(rand);
-        PuertoEspacial puertoEspacial = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
+        PuertoEspacial origen = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
         int muelleOrigen = Utilidades.leerNumero(teclado, "Ingrese el muelle de Origen (1-4): ", 1, 4);
-        PuertoEspacial puertoEspacial1 = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
+        PuertoEspacial destino = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
         int muelleDestino = Utilidades.leerNumero(teclado, "Ingrese Terminal Destino (1-6): ", 1, 6);
         naves.mostrarNaves();
-        Nave nave = naves.seleccionarNave(teclado, "Ingrese matrícula de la nave: ", puertoEspacial1.distancia(puertoEspacial));
+        Nave nave = naves.seleccionarNave(teclado, "Ingrese matrícula de la nave: ", origen.distancia(destino));
         Fecha fechasalida = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de salida:");
         Fecha fechallegada = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de llegada: ");
         while (fechallegada.anterior(fechasalida)) {
@@ -293,7 +293,7 @@ public class Porte {
             System.out.print("Ingrese precio de pasaje: ");
             precio = teclado.nextDouble();
         }
-        Porte porte = new Porte(id, nave, puertoEspacial, muelleOrigen, fechasalida, puertoEspacial1, muelleDestino, fechallegada, precio);
+        Porte porte = new Porte(id, nave, origen, muelleOrigen, fechasalida, destino, muelleDestino, fechallegada, precio);
         System.out.println("\tPorte "+porte.getID()+" creado correctamente");
         portes.insertarPorte(porte);
 

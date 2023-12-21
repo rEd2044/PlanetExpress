@@ -220,12 +220,12 @@ public class PlanetExpress {
                         System.out.println("No se ha podido dar de alta más clientes ");
                     }else {
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
-                        System.out.println("Cliente con email "+cliente.getEmail()+" creado correctamente");
+                        listaClientes.escribirClientesCsv(args[8]);
                     }
                     break;
                 case 3:     // TODO: Buscar Porte
                     if(listaPortes.getOcupacion()==0){
-                        System.out.println("La lista esta vacía no se puede añadir");
+                        System.out.println("La lista esta vacía no se puede buscar");
                     }else {
                         planetExpress.buscarPorte(teclado);
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");

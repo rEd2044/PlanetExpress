@@ -117,13 +117,12 @@ public class ListaNaves {
             buscarNave(matricula);
         }
         nave=buscarNave(matricula);
-        System.out.println(alcance);
-        System.out.println(nave.getAlcance());
         while(alcance > nave.getAlcance()){
             System.out.println("\tNave seleccionada con alcance insuficiente");
             System.out.print(mensaje);
             matricula=teclado.nextLine();
-            while(buscarNave(matricula)==null){
+            nave=buscarNave(matricula);
+            while(nave==null){
                 System.out.println("Matrícula de avión no encontrada");
                 System.out.print(mensaje);
                 matricula=teclado.nextLine();
