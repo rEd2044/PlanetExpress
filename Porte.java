@@ -275,16 +275,8 @@ public class Porte {
     public static Porte altaPorte(Scanner teclado, Random rand, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves, ListaPortes portes) {
         String id = generarID(rand);
         PuertoEspacial origen = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
-        while(origen==null){
-            System.out.println("\tCódigo de puerto no encontrado");
-            origen = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
-        }
         int muelleOrigen = Utilidades.leerNumero(teclado, "Ingrese el muelle de Origen (1-4): ", 1, 4);
         PuertoEspacial destino = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
-        while(destino==null){
-            System.out.println("\tCódigo de puerto no encontrado");
-            destino = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
-        }
         int muelleDestino = Utilidades.leerNumero(teclado, "Ingrese Terminal Destino (1-6): ", 1, 6);
         naves.mostrarNaves();
         Nave nave = naves.seleccionarNave(teclado, "Ingrese matrícula de la nave: ", origen.distancia(destino));
