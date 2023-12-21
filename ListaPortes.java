@@ -96,10 +96,11 @@ public class ListaPortes {
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
         int i = 0;
-        ListaPortes listaPortes=new ListaPortes(i);
-        while (i < portes.length) {
+        ListaPortes listaPortes=null;
+        while (i < getOcupacion()) {
             if (getPorte(i).coincide(codigoOrigen, codigoDestino, fecha)) {
                 Porte porte =getPorte(i);
+                listaPortes=new ListaPortes(i);
                 listaPortes.insertarPorte(porte);
                 System.out.println("Porte "+porte.toStringSimple());
 
@@ -113,9 +114,7 @@ public class ListaPortes {
      * TODO: Muestra por pantalla los Portes siguiendo el formato de los ejemplos del enunciado
      */
     public void listarPortes() {
-        for (Porte port : portes) {
-            System.out.println(port.toStringSimple());
-        }
+        
     }
 
 

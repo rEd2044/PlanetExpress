@@ -109,6 +109,17 @@ public class PlanetExpress {
         PuertoEspacial puertoEspaciall=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un código de puerto Destino: ");
         String codigoDestino=puertoEspaciall.getCodigo();
         Fecha fecha=Utilidades.leerFecha(teclado,"Ingrese la fecha de salida: ");
+        int dia= fecha.getDia(),
+        mes= fecha.getMes(),
+        anio= fecha.getAnio();
+        while( !Fecha.comprobarFecha(dia,mes,anio)){
+            System.out.println("\tFecha introducida incorrecta");
+            fecha=Utilidades.leerFecha(teclado,"Ingrese la fecha de salida: ");
+            dia= fecha.getDia();
+            mes= fecha.getMes();
+            anio= fecha.getAnio();
+        }
+
         return listaPortes.buscarPortes(codigoOrigen, codigoDestino, fecha);
     }
 
@@ -213,12 +224,16 @@ public class PlanetExpress {
                     }
                     break;
                 case 3:     // TODO: Buscar Porte
-                    planetExpress.buscarPorte(teclado);
-                    Porte porte=listaPortes.seleccionarPorte(teclado,"Seleccione un porte: ","CANCELAR");
-                    while(porte==null){
-                        porte=listaPortes.seleccionarPorte(teclado,"Seleccione un porte: ","CANCELAR");
+                    if(listaPortes.getOcupacion()==0){
+                        System.out.println("La lista esta vacía no se puede añadir");
+                    }else {
+                        planetExpress.buscarPorte(teclado);
+                        Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
+                        while (porte == null) {
+                            porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
+                        }
+                        planetExpress.contratarEnvio(teclado,rand,porte);
                     }
-                    planetExpress.contratarEnvio(teclado,rand,porte);
                     break;
                 case 4:     // TODO: Listado de envíos de un cliente
                     Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
@@ -244,7 +259,7 @@ public class PlanetExpress {
                         System.out.println("Lista esta vacía");
                     }else {
                         listaPortes.listarPortes();
-                        porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte", "CANCELAR");
+                        Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte", "CANCELAR");
                         System.out.println("Nombre del fichero: ");
                         String nomFich = teclado.nextLine();
                         porte.generarListaEnvios(nomFich);
