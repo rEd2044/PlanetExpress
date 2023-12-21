@@ -77,9 +77,11 @@ public class ListaClientes {
     // TODO: Devuelve el cliente que coincida con el email, o null en caso de no encontrarlo
     public Cliente buscarClienteEmail(String email) {
         Cliente aux = null;
-        for (int i = 0; i < clientes.length; i++) {
-            if (Objects.equals(email, clientes[i].getEmail())) {
-                aux = clientes[i];
+        if(getOcupacion()!=0) {
+            for (int i = 0; i < clientes.length; i++) {
+                if (Objects.equals(email, clientes[i].getEmail())) {
+                    aux = clientes[i];
+                }
             }
         }
         return aux;

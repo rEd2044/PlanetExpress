@@ -148,12 +148,24 @@ public class Cliente {
     public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
         String email, nombre, apellidos;
         do {
+            teclado.nextLine();
             nombre = Utilidades.leerCadena(teclado, "Nombre:");
             apellidos = Utilidades.leerCadena(teclado, "Apellidos:");
             email = Utilidades.leerCadena(teclado, "Email:");
-        } while (clientes.buscarClienteEmail(email) != null || !correctoEmail(email));
+            if(clientes.buscarClienteEmail(email)!=null){
+                System.out.println("Ya existe un cliente con ese email");
+            }else if(clientes.buscarClienteEmail(email)==null){
+                if(correctoEmail(email)){
+                    System.out.println("Cliente con email "+ email + " creado correctamente.");
+                }else{
+                    System.out.println("Formato de email incorrecto.");
+                }
+            }
+        } while (clientes.buscarClienteEmail(email) != null && !correctoEmail(email));
+
         return new Cliente(nombre, apellidos, email, maxEnvios);
     }
+
 
 
     /**
