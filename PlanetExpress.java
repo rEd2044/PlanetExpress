@@ -105,6 +105,7 @@ public class PlanetExpress {
     public ListaPortes buscarPorte(Scanner teclado) {
         ListaPortes listaPortes1 = null;
         do {
+            teclado=new Scanner(System.in);
             String codigoOrigen = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Origen: ").getCodigo();
             String codigoDestino = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Destino: ").getCodigo();
             Fecha fecha = Utilidades.leerFecha(teclado, "Ingrese la fecha de salida: ");
@@ -118,14 +119,12 @@ public class PlanetExpress {
 
             }
             listaPortes1 = listaPortes.buscarPortes(codigoOrigen, codigoDestino, fecha);
-            if(listaPortes1==null){
+            if(listaPortes1==null) {
                 System.out.println("El porte no se ha encontrado");
-            }else{
-                listaPortes1.listarPortes();
             }
-            teclado.nextLine();
         }while (listaPortes1==null);
         return listaPortes1;
+
     }
 
 
@@ -140,11 +139,14 @@ public class PlanetExpress {
     public void contratarEnvio(Scanner teclado, Random rand, Porte porte) {
         if (porte != null) {
             char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'e','n');
-
             if(sino=='e'){
-                Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
-                Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
-                System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
+                if(listaClientes.getOcupacion()==0){
+                    System.out.println("No hay clientes");
+                }else {
+                    Cliente cliente = listaClientes.seleccionarCliente(teclado, "Email del cliente: ");
+                    Envio envio = Envio.altaEnvio(teclado, rand, porte, cliente);
+                    System.out.println("\tEnvío " + envio.getLocalizador() + " creado correctamente");
+                }
             }else {
                 teclado=new Scanner(System.in);
                 Cliente cliente=Cliente.altaCliente(teclado,listaClientes,maxEnviosPorCliente);
@@ -233,6 +235,7 @@ public class PlanetExpress {
                     }else {
                         teclado = new Scanner(System.in);
                         ListaPortes portes=planetExpress.buscarPorte(teclado);
+                        portes.listarPortes();
                         System.out.println( );
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
                         planetExpress.contratarEnvio(teclado,rand,porte);

@@ -64,14 +64,13 @@ public class ListaClientes {
      */
     // TODO: Inserta el cliente en la lista de clientes
     public boolean insertarCliente(Cliente cliente) {
-        boolean aux = false;
-        for (int i = 0; i < clientes.length; i++) {
-            if (clientes[i] == null) {
-                clientes[i] = cliente;
-                aux = true;
-            }
+        if (estaLlena()) {
+            return false;
+        } else {
+            clientes[getOcupacion()] = cliente;
+            return true;
         }
-        return aux;
+
     }
 
     // TODO: Devuelve el cliente que coincida con el email, o null en caso de no encontrarlo
@@ -79,7 +78,7 @@ public class ListaClientes {
         Cliente aux = null;
         if(getOcupacion()!=0) {
             for (int i = 0; i < clientes.length; i++) {
-                if (Objects.equals(email, clientes[i].getEmail())) {
+                if (clientes[i] !=null && Objects.equals(email, clientes[i].getEmail())) {
                     aux = clientes[i];
                 }
             }
@@ -151,9 +150,9 @@ public class ListaClientes {
             String linea;
             while ((linea = leer.readLine()) != null) {
                 String[] parametros = linea.split(";");
+                System.out.println("N parametros: " + parametros.length);
                 Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
-
             }
         } catch (IOException ex) {
             System.err.println("Fichero " + fichero+ " no encontrado");

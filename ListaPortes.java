@@ -99,8 +99,8 @@ public class ListaPortes {
             for (int i = 0; i < getOcupacion(); i++) {
                 if (portes[i].coincide(codigoOrigen, codigoDestino, fecha)) {
                     Porte porte=portes[i];
-                    listaPortes =new ListaPortes(i);
-                    listaPortes.insertarPorte(getPorte(i));
+                    listaPortes =new ListaPortes(getOcupacion());
+                    listaPortes.insertarPorte(porte);
                 }
 
             }
@@ -113,7 +113,9 @@ public class ListaPortes {
      */
     public void listarPortes() {
         for (int i = 0; i < getOcupacion(); i++) {
-            System.out.println(getPorte(i).toStringSimple());
+           if(getPorte(i)!=null) {
+               System.out.println(getPorte(i).toStringSimple());
+           }
         }
     }
 
