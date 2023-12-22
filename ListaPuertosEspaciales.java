@@ -79,7 +79,7 @@ public class ListaPuertosEspaciales {
      * @return Puerto espacial que encontramos o null si no existe
      */
     public PuertoEspacial buscarPuertoEspacial(String codigo) {
-       PuertoEspacial puertoEspacial=null;
+        PuertoEspacial puertoEspacial=null;
         for(int i=0;i<getOcupacion();i++){
             if (Objects.equals(codigo, getPuertoEspacial(i).getCodigo())) {
                  puertoEspacial= getPuertoEspacial(i);
@@ -100,12 +100,12 @@ public class ListaPuertosEspaciales {
     public PuertoEspacial seleccionarPuertoEspacial(Scanner teclado, String mensaje) {
         PuertoEspacial puertoEspacial=null;
         System.out.print(mensaje);
-        teclado.nextLine();
-        puertoEspacial=buscarPuertoEspacial(teclado.nextLine());
+        String codigo1 =teclado.nextLine();
+        puertoEspacial=buscarPuertoEspacial(codigo1);
         while(puertoEspacial==null) {
             System.out.println("\tCódigo de puerto no encontrado");
             System.out.print(mensaje);
-            String codigo=teclado.nextLine();
+            String codigo = teclado.nextLine();
             puertoEspacial=buscarPuertoEspacial(codigo);
         }
         return puertoEspacial;

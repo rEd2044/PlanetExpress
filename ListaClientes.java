@@ -99,13 +99,9 @@ public class ListaClientes {
     public Cliente seleccionarCliente(Scanner teclado, String mensaje) {
         Cliente cliente = null;
         do {
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             String email = teclado.nextLine();
-            for (int i = 0; i < clientes.length; i++) {
-                if (Objects.equals(email, clientes[i])) {
-                    cliente = clientes[i];
-                }
-            }
+            cliente =buscarClienteEmail(email);
             if (cliente == null) {
                 System.out.println("Email no encontrado.");
             }
@@ -121,21 +117,20 @@ public class ListaClientes {
      * @return
      */
     public boolean escribirClientesCsv(String fichero) {
-        PrintWriter salida = null;
-        try {
-            salida = new PrintWriter(fichero);
+        try (PrintWriter salida = new PrintWriter(fichero)) {
             for (int i = 0; i < clientes.length; i++) {
-                salida.println(clientes[i].getNombre() + ";" + clientes[i].getApellidos() + ";" + clientes[i].getEmail());
+                if (clientes[i] != null) {
+                    Cliente cliente = clientes[i];
+                    salida.println(cliente.getNombre() + ";" + cliente.getApellidos() + ";" + cliente.getEmail());
+                }
             }
+
+            return true;
         } catch (FileNotFoundException e) {
             System.out.println("Error de escritura en fichero " + fichero);
             return false;
-        } finally {
-            if (salida != null) {
-                salida.close();
-            }
         }
-        return true;
+
     }
 
     /**

@@ -174,7 +174,7 @@ public class Porte {
      * @return ejemplo del formato -> "Porte PM0066 de GGT M5 (01/01/2023 08:15:00) a CID M1 (01/01/2024 11:00:05)"
      */
     public String toStringSimple() {
-        return "Porte "+id+" de "+origen+" ("+salida+") a "+destino+" ("+llegada+") ";
+        return "Porte "+id+" de "+origen.toStringSimple()+" ("+salida+") a "+destino.toStringSimple()+" ("+llegada+") ";
     }
 
 
@@ -186,7 +186,7 @@ public class Porte {
      * @return
      */
     public boolean coincide(String codigoOrigen, String codigoDestino, Fecha fecha) {
-        if(origen.getCodigo().equals(codigoOrigen) && destino.getCodigo().equals(codigoDestino) && fecha.coincide(llegada)){
+        if(origen.getCodigo().equals(codigoOrigen) && destino.getCodigo().equals(codigoDestino) && fecha.coincide(salida)){
             return true;
         }else {
             return false;

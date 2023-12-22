@@ -80,7 +80,8 @@ public class Utilidades {
         char letra;
         System.out.print(mensaje);
         letra=teclado.nextLine().charAt(0);
-        while(letra<minimo || letra>maximo){
+        while(letra!=minimo && letra!=maximo){
+            System.out.println("El valor de entrada debe ser 'n' 'e'");
             System.out.print(mensaje);
             letra=teclado.nextLine().charAt(0);
         }

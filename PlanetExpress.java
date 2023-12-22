@@ -40,7 +40,6 @@ public class PlanetExpress {
         this.listaNaves=new ListaNaves(maxNaves);
         this.listaClientes=new ListaClientes(maxClientes);
         this.listaPortes=new ListaPortes(maxPortes);
-
     }
     /**
      * TODO: Metodo para leer los datos de los ficheros específicados en el enunciado y los agrega a
@@ -104,21 +103,29 @@ public class PlanetExpress {
      * @return
      */
     public ListaPortes buscarPorte(Scanner teclado) {
-        String codigoOrigen = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Origen: ").getCodigo();
-        String codigoDestino=listaPuertosEspaciales.seleccionarPuertoEspacial(teclado,"Ingrese un código de puerto Destino: ").getCodigo();
-        Fecha fecha=Utilidades.leerFecha(teclado,"Ingrese la fecha de salida: ");
-        int dia= fecha.getDia(),
-        mes= fecha.getMes(),
-        anio= fecha.getAnio();
-        while( !Fecha.comprobarFecha(dia,mes,anio)){
-            System.out.println("\tFecha introducida incorrecta");
-            fecha=Utilidades.leerFecha(teclado,"Ingrese la fecha de salida: ");
-            dia= fecha.getDia();
-            mes= fecha.getMes();
-            anio= fecha.getAnio();
-        }
+        ListaPortes listaPortes1 = null;
+        do {
+            String codigoOrigen = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Origen: ").getCodigo();
+            String codigoDestino = listaPuertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese un código de puerto Destino: ").getCodigo();
+            Fecha fecha = Utilidades.leerFecha(teclado, "Ingrese la fecha de salida: ");
+            int dia = fecha.getDia(), mes = fecha.getMes(), anio = fecha.getAnio();
+            while (!Fecha.comprobarFecha(dia, mes, anio)) {
+                System.out.println("\tFecha introducida incorrecta");
+                fecha = Utilidades.leerFecha(teclado, "Ingrese la fecha de salida: ");
+                dia = fecha.getDia();
+                mes = fecha.getMes();
+                anio = fecha.getAnio();
 
-        return listaPortes.buscarPortes(codigoOrigen, codigoDestino, fecha);
+            }
+            listaPortes1 = listaPortes.buscarPortes(codigoOrigen, codigoDestino, fecha);
+            if(listaPortes1==null){
+                System.out.println("El porte no se ha encontrado");
+            }else{
+                listaPortes1.listarPortes();
+            }
+            teclado.nextLine();
+        }while (listaPortes1==null);
+        return listaPortes1;
     }
 
 
@@ -132,15 +139,11 @@ public class PlanetExpress {
      */
     public void contratarEnvio(Scanner teclado, Random rand, Porte porte) {
         if (porte != null) {
-            char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
-            while(sino!='e' || sino!='n'){
-                System.out.println("El valor de entrada debe ser 'n' o 'e'");
-                sino =Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'a','z');
-            }
+            char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'e','n');
             if(sino=='e'){
                 Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
                 Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
-                System.out.println("Envío "+envio.getLocalizador()+" creado correctamente");
+                System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
             }else {
                 Cliente cliente=Cliente.altaCliente(teclado,listaClientes,maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
@@ -225,16 +228,10 @@ public class PlanetExpress {
                     if(listaPortes.getOcupacion()==0){
                         System.out.println("La lista esta vacía no se puede buscar");
                     }else {
+                        teclado = new Scanner(System.in);
                         ListaPortes portes=planetExpress.buscarPorte(teclado);
-                        while(portes==null){
-                            portes=planetExpress.buscarPorte(teclado);
-                        }
-                        System.out.println();
-
+                        System.out.println( );
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
-                        while (porte == null) {
-                            porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
-                        }
                         planetExpress.contratarEnvio(teclado,rand,porte);
                     }
                     break;

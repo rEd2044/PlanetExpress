@@ -159,11 +159,13 @@ public class Cliente {
                     System.out.println("Cliente con email "+ email + " creado correctamente.");
                 }else{
                     System.out.println("Formato de email incorrecto.");
+
                 }
             }
-        } while (clientes.buscarClienteEmail(email) != null && !correctoEmail(email));
-
-        return new Cliente(nombre, apellidos, email, maxEnvios);
+        } while (clientes.buscarClienteEmail(email) != null || !correctoEmail(email));
+        Cliente cliente=new Cliente(nombre, apellidos, email, maxEnvios);
+        clientes.insertarCliente(cliente);
+        return cliente;
     }
 
 
