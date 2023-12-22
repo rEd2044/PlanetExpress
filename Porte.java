@@ -276,6 +276,7 @@ public class Porte {
         String id = generarID(rand);
         PuertoEspacial origen = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
         int muelleOrigen = Utilidades.leerNumero(teclado, "Ingrese el muelle de Origen (1-4): ", 1, 4);
+        teclado =new Scanner(System.in);
         PuertoEspacial destino = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
         int muelleDestino = Utilidades.leerNumero(teclado, "Ingrese Terminal Destino (1-6): ", 1, 6);
         naves.mostrarNaves();

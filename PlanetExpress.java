@@ -140,15 +140,17 @@ public class PlanetExpress {
     public void contratarEnvio(Scanner teclado, Random rand, Porte porte) {
         if (porte != null) {
             char sino=Utilidades.leerLetra(teclado,"¿Comprar billete para un nuevo pasajero (n), o para uno ya existente (e)? ",'e','n');
+
             if(sino=='e'){
                 Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
                 Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
                 System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
             }else {
+                teclado=new Scanner(System.in);
                 Cliente cliente=Cliente.altaCliente(teclado,listaClientes,maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
                 Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
-                System.out.println("Envío "+envio.getLocalizador()+" creado correctamente");
+                System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
             }
         }
 
@@ -212,6 +214,7 @@ public class PlanetExpress {
                     if(planetExpress.maxPortesAlcanzado()){
                         System.out.println("No se pueden dar de alta más vuelos");
                     }else{
+                        teclado.nextLine();
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
                         listaPortes.escribirPortesCsv(args[7]);
                     }

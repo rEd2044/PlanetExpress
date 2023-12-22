@@ -96,7 +96,7 @@ public class ListaPortes {
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
         ListaPortes listaPortes = null;
-            for (int i = 0; i < portes.length; i++) {
+            for (int i = 0; i < getOcupacion(); i++) {
                 if (portes[i].coincide(codigoOrigen, codigoDestino, fecha)) {
                     Porte porte=portes[i];
                     listaPortes =new ListaPortes(i);

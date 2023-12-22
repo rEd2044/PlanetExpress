@@ -180,12 +180,12 @@ public class ListaEnvios {
         Envio aux1 = null;
         boolean aux2 = false;
         do{
-            System.out.println(mensaje);
+            System.out.print(mensaje);
             String aux = teclado.nextLine();
-            for(int i = 0; i< envios.length;i++){
-                if(Objects.equals(envios[i].getLocalizador(), aux)){
-                   aux1 = envios[i];
-                   aux2 = true;
+            for (Envio envio : envios) {
+                if (Objects.equals(envio.getLocalizador(), aux)) {
+                    aux1 = envio;
+                    aux2 = true;
                 }
             }
             if(!aux2){
@@ -208,6 +208,7 @@ public class ListaEnvios {
         PrintWriter pw = null;
         try {
             pw =new PrintWriter(fichero);
+
             if(fichero==null){
                 for(Envio envio:envios){
                     pw.print(envio);
