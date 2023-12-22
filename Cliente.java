@@ -147,8 +147,10 @@ public class Cliente {
     //          P   O   S   I   B   L   E                  F   A   L   L   O
     public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
         String email, nombre, apellidos;
+        clientes = new ListaClientes(maxEnvios);
+        teclado.nextLine();
         do {
-            teclado.nextLine();
+
             nombre = Utilidades.leerCadena(teclado, "Nombre:");
             apellidos = Utilidades.leerCadena(teclado, "Apellidos:");
             email = Utilidades.leerCadena(teclado, "Email:");
@@ -159,13 +161,11 @@ public class Cliente {
                     System.out.println("Cliente con email "+ email + " creado correctamente.");
                 }else{
                     System.out.println("Formato de email incorrecto.");
-
                 }
             }
         } while (clientes.buscarClienteEmail(email) != null || !correctoEmail(email));
-        Cliente cliente=new Cliente(nombre, apellidos, email, maxEnvios);
-        clientes.insertarCliente(cliente);
-        return cliente;
+
+        return new Cliente(nombre, apellidos, email, maxEnvios);
     }
 
 
