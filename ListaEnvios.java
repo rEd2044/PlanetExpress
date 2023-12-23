@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.AbstractQueue;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -65,16 +66,14 @@ public class ListaEnvios {
      */
     //TODO: insertamos un nuevo envío en la lista
     public boolean insertarEnvio(Envio envio) {
-        int i =0;
-        boolean aux = false;
-        do{
-            if (envios[i] == null) {
-                envios[i] = envio;
-                aux = true;
-            }
-            i++;
-        }while(!aux && i<envios.length);
-        return aux;
+        if (estaLlena()) {
+            System.out.println("Aqui 1");
+            return false;
+        } else {
+            envios[getOcupacion()] = envio;
+            System.out.println("aqui 2" );
+            return true;
+        }
     }
 
     /**
@@ -85,22 +84,13 @@ public class ListaEnvios {
      */
     //TODO: Buscamos el envio a partir del localizador pasado como parámetro
     public Envio buscarEnvio(String localizador) {
-        int i =0;
-        boolean aux = false;
-        Envio aux1 = null;
-        do{
-            if (Objects.equals(envios[i].getLocalizador(), localizador)) {
-                aux1 =envios[i];
-                aux = true;
+        Envio envio=null;
+        for(int i=0;i<getOcupacion();i++) {
+            if (Objects.equals(localizador, getEnvio(i).getLocalizador())) {
+                envio=getEnvio(i);
             }
-            i++;
-        }while(!aux && i<envios.length);
-        if(aux){
-            return aux1;
-        }else{
-            return null;
         }
-
+        return envio;
     }
 
     /**
@@ -175,23 +165,16 @@ public class ListaEnvios {
     //para la solicitud y siguiendo el orden y los textos mostrados en el enunciado.
     //La función solicita repetidamente hasta que se introduzca un localizador correcto
     public Envio seleccionarEnvio(Scanner teclado, String mensaje) {
-        Envio aux1 = null;
-        boolean aux2 = false;
+        Envio envio = null;
         do{
             System.out.print(mensaje);
-            String aux = teclado.nextLine();
-            for (Envio envio : envios) {
-                if (Objects.equals(envio.getLocalizador(), aux)) {
-                    aux1 = envio;
-                    aux2 = true;
-                }
+            String localizador = teclado.nextLine();
+            envio=buscarEnvio(localizador);
+            if(envio==null){
+                System.out.println("\tLocalizador incorrecto");
             }
-            if(!aux2){
-                System.out.println("Localizador no encontrado.");
-            }
-
-        }while(!aux2);
-        return aux1;
+        }while(envio==null);
+        return envio;
     }
 
 
@@ -203,28 +186,25 @@ public class ListaEnvios {
      * @return
      */
     public boolean aniadirEnviosCsv(String fichero) {
-        PrintWriter pw = null;
+        PrintWriter salida = null;
         try {
-            pw =new PrintWriter(fichero);
-
-            if(fichero==null){
-                for(Envio envio:envios){
-                    pw.print(envio);
-                }
-            }else{
-                FileWriter fw=new FileWriter(fichero,true);
-                pw= new PrintWriter(fw);
-                for(Envio envio:envios){
-                    pw.print(envio);
+            salida =new PrintWriter(fichero);
+            System.out.println(getOcupacion());
+            for (int i = 0; i < getOcupacion(); i++) {
+                System.out.println("entro");
+                if (envios[i] != null) {
+                    Envio envio=envios[i] ;
+                    salida.println(envio.getLocalizador()+";"+envio.getPorte().getID()+";"+envio.getCliente().getEmail()+";"+envio.getFila()+";"+envio.getColumna()+";"+envio.getPrecio());
                 }
             }
+
             return true;
         } catch (Exception e) {
             System.out.println("Error de escritura en fichero "+fichero);
             return false;
         } finally{
-            if(pw !=null){
-                pw.close();
+            if(salida!=null){
+                salida.close();
             }
         }
     }
@@ -239,7 +219,7 @@ public class ListaEnvios {
     public static void leerEnviosCsv(String ficheroEnvios, ListaPortes portes, ListaClientes clientes) {
         Scanner sc = null;
         try {
-            sc = new Scanner(new BufferedReader(new FileReader(ficheroEnvios )));
+            sc = new Scanner(new BufferedReader(new FileReader(ficheroEnvios)));
 
             do{
                 if(sc.hasNextLine()) {
@@ -254,6 +234,7 @@ public class ListaEnvios {
                     clientes.insertarCliente(envio.getCliente());
                     portes.insertarPorte(envio.getPorte());
                     linea = sc.nextLine();
+                    cliente.aniadirEnvio(envio);
                     parametros = linea.split(";");
                 }
 

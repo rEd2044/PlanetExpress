@@ -94,6 +94,7 @@ public class Cliente {
      */
     // TODO: Añade un envío al cliente
     public boolean aniadirEnvio(Envio envio) {
+        System.out.println("aqui");
         return this.listaEnvios.insertarEnvio(envio);
     }
 

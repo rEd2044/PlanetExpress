@@ -60,6 +60,7 @@ public class Porte {
                 huecos[i][j]= true;
             }
         }
+        this.listaEnvios=new ListaEnvios(numHuecosLibres());
     }
     public String getID() {
         return id;
@@ -219,10 +220,14 @@ public class Porte {
      * @return
      */
     public boolean generarListaEnvios(String fichero){
-        try (PrintWriter salida = new PrintWriter(fichero + "csv")) {
-            ListaEnvios[] envios1=new ListaEnvios[listaEnvios.getOcupacion()];
-            for (int i=0; i<listaEnvios.getOcupacion() ;i++){
-                salida.print(envios1[i]);
+        try (PrintWriter salida = new PrintWriter(fichero )) {
+            for (int i=0; i<numHuecosLibres();i++){
+                salida.println("--------------------------------------------------------------\n" +
+                        "--------- Lista de envíos del porte------\n" +
+                        "--------------------------------------------------------------");
+                salida.println("Hueco   Cliente" +
+                        listaEnvios.getEnvio(i).getHueco()+"      "+ listaEnvios.getEnvio(i).getCliente().getNombre()+", "+listaEnvios.getEnvio(i).getCliente().getEmail() );
+
             }
             System.out.println("Fichero creado correctamente");
             return true;

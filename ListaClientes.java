@@ -98,6 +98,7 @@ public class ListaClientes {
     public Cliente seleccionarCliente(Scanner teclado, String mensaje) {
         Cliente cliente = null;
         do {
+            teclado=new Scanner(System.in);
             System.out.print(mensaje);
             String email = teclado.nextLine();
             cliente =buscarClienteEmail(email);
