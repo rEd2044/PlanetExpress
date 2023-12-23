@@ -188,7 +188,7 @@ public class ListaPortes {
      */
     public static ListaPortes leerPortesCsv(String fichero, int capacidad, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves) {
         ListaPortes listaPortes = new ListaPortes(capacidad);
-        BufferedReader leer= null;
+        BufferedReader leer = null;
         try {
             leer= new BufferedReader(new FileReader(fichero));
             String linea;

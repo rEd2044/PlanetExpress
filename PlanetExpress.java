@@ -230,6 +230,7 @@ public class PlanetExpress {
                     if(planetExpress.maxClientesAlcanzado()){
                         System.out.println("No se ha podido dar de alta más clientes ");
                     }else {
+                        teclado.nextLine();
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
                         planetExpress.insertarCliente(cliente);
                         planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);

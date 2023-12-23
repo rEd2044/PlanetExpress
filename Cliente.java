@@ -149,7 +149,6 @@ public class Cliente {
     public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
         String email, nombre, apellidos;
         do {
-            teclado=new Scanner(System.in);
             nombre = Utilidades.leerCadena(teclado, "Nombre:");
             apellidos = Utilidades.leerCadena(teclado, "Apellidos:");
             email = Utilidades.leerCadena(teclado, "Email:");
