@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -118,27 +115,20 @@ public class ListaPuertosEspaciales {
      * @return
      */
     public boolean escribirPuertosEspacialesCsv(String nombre) {
-        PrintWriter pw = null;
-        try {
-            pw=new PrintWriter(nombre);
-            if(nombre==null){
-                for(PuertoEspacial p:lista){
-                    pw.println(p);
-                }
-            }else{
-                for(PuertoEspacial p:lista){
-                    pw.println(p);
+        try (PrintWriter salida = new PrintWriter(nombre)) {
+            for (int i = 0; i < getOcupacion(); i++) {
+                if (lista[i] != null) {
+                    PuertoEspacial puertoEspacial=lista[i];
+                    salida.println(puertoEspacial.getNombre()+";"+puertoEspacial.getCodigo()+
+                            ";"+puertoEspacial.getRadio()+";"+puertoEspacial.getAzimut()+";"+puertoEspacial.getPolar()+";"+puertoEspacial.getMuelles());
                 }
             }
             return true;
-        } catch (Exception e) {
-            System.out.println("Error de escritura en fichero "+nombre);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error de escritura en fichero " + nombre);
             return false;
-        } finally {
-            if(pw !=null){
-                pw.close();
-            }
         }
+
     }
 
 

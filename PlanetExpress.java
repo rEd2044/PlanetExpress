@@ -53,12 +53,12 @@ public class PlanetExpress {
      */
     public void cargarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
         //No se si esta bien pero entiendo que hay que hacer esto
-        listaPuertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,this.maxPuertosEspaciales);
-        listaNaves=ListaNaves.leerNavesCsv(ficheroNaves,this.maxNaves);
+        listaPuertosEspaciales=ListaPuertosEspaciales.leerPuertosEspacialesCsv(ficheroPuertos,maxPuertosEspaciales);
+        listaNaves=ListaNaves.leerNavesCsv(ficheroNaves,maxNaves);
         listaPortes=ListaPortes.leerPortesCsv(ficheroPortes,maxPortes,listaPuertosEspaciales,listaNaves);
         listaClientes=ListaClientes.leerClientesCsv(ficheroClientes,maxClientes,maxEnviosPorCliente);
         ListaEnvios.leerEnviosCsv(ficheroEnvios,listaPortes,listaClientes);
-        PlanetExpress planetExpress=new PlanetExpress(listaPuertosEspaciales.getOcupacion(),listaNaves.getOcupacion(),maxPortes,maxClientes,maxEnviosPorCliente);
+        PlanetExpress planetExpress=new PlanetExpress(maxPuertosEspaciales,maxNaves,maxPortes,maxClientes,maxEnviosPorCliente);
     }
 
 
@@ -72,7 +72,6 @@ public class PlanetExpress {
      * @param ficheroEnvios
      */
     public void guardarDatos(String ficheroPuertos, String ficheroNaves, String ficheroPortes, String ficheroClientes, String ficheroEnvios) {
-        //No se si esta bien pero entiendo que hay que hacer esto
         listaPuertosEspaciales.escribirPuertosEspacialesCsv(ficheroPuertos);
         listaNaves.escribirNavesCsv(ficheroNaves);
         listaClientes.escribirClientesCsv(ficheroClientes);
@@ -222,7 +221,7 @@ public class PlanetExpress {
                     }else{
                         teclado.nextLine();
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
-                        listaPortes.escribirPortesCsv(args[7]);
+                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente
@@ -230,7 +229,7 @@ public class PlanetExpress {
                         System.out.println("No se ha podido dar de alta más clientes ");
                     }else {
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
-                        listaClientes.escribirClientesCsv(args[8]);
+                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
                     }
                     break;
                 case 3:     // TODO: Buscar Porte
@@ -243,7 +242,7 @@ public class PlanetExpress {
                         System.out.println( );
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
                         planetExpress.contratarEnvio(teclado,rand,porte);
-                        listaEnvios.aniadirEnviosCsv(args[9]);
+                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
 
                     }
                     break;

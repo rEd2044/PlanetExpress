@@ -1,8 +1,5 @@
 import javax.imageio.IIOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.SimpleTimeZone;
@@ -140,27 +137,19 @@ public class ListaNaves {
      * @return
      */
     public boolean escribirNavesCsv(String nombre) {
-        PrintWriter pw = null;
-        try {
-            pw=new PrintWriter(nombre);
-            if(nombre==null){
-                for(Nave nav:naves){
-                    pw.println(nav);
-                }
-            }else{
-                for(Nave nav:naves){
-                    pw.println(nav);
+        try (PrintWriter salida = new PrintWriter(nombre)) {
+            for (int i = 0; i < getOcupacion(); i++) {
+                if (naves[i] != null) {
+                    Nave nave = naves[i];
+                    salida.println(nave.getMarca()+";"+nave.getModelo()+";"+nave.getMatricula()+";"+nave.getFilas()+";"+nave.getColumnas()+";"+nave.getAlcance());
                 }
             }
             return true;
-        } catch (Exception e) {
-            System.out.println("Error de escritura en fichero "+nombre);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error de escritura en fichero " + nombre);
             return false;
-        } finally {
-            if(pw !=null){
-                pw.close();
-            }
         }
+
     }
 
 
