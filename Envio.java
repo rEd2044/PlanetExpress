@@ -141,7 +141,7 @@ public class Envio {
         PrintWriter factura = null;
         boolean aux = true;
         try {
-            factura = new PrintWriter(fichero+".txt");
+            factura = new PrintWriter(fichero);
             factura.println("-----------------------------------------------------"+
                           "\n--------- Factura del envío PM1111AAAABBBBC ---------"+
                           "\n-----------------------------------------------------"+
@@ -153,6 +153,7 @@ public class Envio {
                           "\nCliente: "+this.cliente.toString()+
                           "\nHueco: "+getHueco()+
                           "\nPrecio: "+this.porte.getPrecio()+" SSD");
+            System.out.println("Factura generada correctamente");
         } catch (FileNotFoundException e) {
             aux = false;
         }finally {

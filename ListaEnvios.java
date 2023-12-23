@@ -103,22 +103,17 @@ public class ListaEnvios {
      */
     //TODO: Buscamos el envio a partir del idPorte, fila y columna pasados como parámetros
     public Envio buscarEnvio(String idPorte, int fila, int columna) {
-        int i = 0;
         boolean aux =false;
-        Envio aux1 = null;
-        do{
-            if(envios[i].getColumna()==columna && envios[i].getFila()== fila){
-                aux1= envios[i];
-                aux = true;
+        Envio envio = null;
+        for(int i=0;i<getOcupacion();i++){
+            if(getEnvio(i).getColumna()==columna && getEnvio(i).getFila()==fila){
+                if(Objects.equals(getEnvio(i).getPorte().getID(), idPorte) && aux ){
+                    envio=getEnvio(i);
+                    aux=true;
+                }
             }
-            i++;
-
-        }while(!aux && i<envios.length);
-        if(aux){
-            return aux1;
-        }else{
-            return null;
         }
+        return envio;
     }
 
     /**
@@ -167,6 +162,7 @@ public class ListaEnvios {
     public Envio seleccionarEnvio(Scanner teclado, String mensaje) {
         Envio envio = null;
         do{
+            teclado=new Scanner(System.in);
             System.out.print(mensaje);
             String localizador = teclado.nextLine();
             envio=buscarEnvio(localizador);
@@ -186,26 +182,17 @@ public class ListaEnvios {
      * @return
      */
     public boolean aniadirEnviosCsv(String fichero) {
-        PrintWriter salida = null;
-        try {
-            salida =new PrintWriter(fichero);
+        try (PrintWriter salida = new PrintWriter(fichero)) {
             System.out.println(getOcupacion());
             for (int i = 0; i < getOcupacion(); i++) {
-                System.out.println("entro");
-                if (envios[i] != null) {
-                    Envio envio=envios[i] ;
-                    salida.println(envio.getLocalizador()+";"+envio.getPorte().getID()+";"+envio.getCliente().getEmail()+";"+envio.getFila()+";"+envio.getColumna()+";"+envio.getPrecio());
-                }
+                    Envio envio = envios[i];
+                    salida.println(envio.getLocalizador() + ";" + envio.getPorte().getID() + ";" + envio.getCliente().getEmail() + ";" + envio.getFila() + ";" + envio.getColumna() + ";" + envio.getPrecio());
             }
 
             return true;
         } catch (Exception e) {
-            System.out.println("Error de escritura en fichero "+fichero);
+            System.out.println("Error de escritura en fichero " + fichero);
             return false;
-        } finally{
-            if(salida!=null){
-                salida.close();
-            }
         }
     }
 

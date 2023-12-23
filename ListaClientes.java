@@ -151,7 +151,6 @@ public class ListaClientes {
             String linea;
             while ((linea = leer.readLine()) != null) {
                 String[] parametros = linea.split(";");
-                System.out.println("N parametros: " + parametros.length);
                 Cliente cliente = new Cliente(parametros[0], parametros[1], parametros[2], maxEnviosPorCliente);
                 listaClientes.insertarCliente(cliente);
             }

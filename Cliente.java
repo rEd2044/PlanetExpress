@@ -164,9 +164,7 @@ public class Cliente {
                 }
             }
         } while (clientes.buscarClienteEmail(email) != null || !correctoEmail(email));
-        Cliente cliente=new Cliente(nombre, apellidos, email, maxEnvios);
-        clientes.insertarCliente(cliente);
-        return cliente;
+        return new Cliente(nombre, apellidos, email, maxEnvios);
     }
 
 
