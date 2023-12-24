@@ -15,7 +15,7 @@ public class ListaNaves {
     private Nave[] naves;
 
     /**
-     * TODO: Constructor de la clase para inicializar la lista a una capacidad determinada
+     * Constructor de la clase
      *
      * @param capacidad
      */
@@ -23,7 +23,10 @@ public class ListaNaves {
         this.naves=new Nave[capacidad];
 
     }
-    // TODO: Devuelve el número de naves que hay en la lista
+    /**
+     * Metodo que devuelve el número de naves que hay en la lista
+     * @return la ocupacion de la lista
+     */
     public int getOcupacion() {
         int ocupacion=0;
         int i=0;
@@ -38,7 +41,10 @@ public class ListaNaves {
 
         return ocupacion;
     }
-    // TODO: ¿Está llena la lista de naves?
+    /*
+     * Metodo para comparar que esta llena la lista
+     * @return true si esta llena false si todovía hay espacios libres
+     */
     public boolean estaLlena() {
         int ocupacion=getOcupacion();
         if(ocupacion == naves.length){
@@ -47,15 +53,15 @@ public class ListaNaves {
         return  false;
 
     }
-	// TODO: Devuelve nave dado un indice
+	// Devuelve nave dado posicion
     public Nave getNave(int posicion) {
         return naves[posicion];
     }
 
     /**
-     * TODO: insertamos una nueva nave en la lista
+     * Insertamos una nueva nave en la lista
      * @param nave
-     * @return true en caso de que se añada correctamente, false en caso de lista llena o error
+     * @return <true en caso de que se añada correctamente, false en caso de lista llena o error>
      */
     public boolean insertarNave(Nave nave) {
         int posicion=getOcupacion();
@@ -68,7 +74,7 @@ public class ListaNaves {
         }
     }
     /**
-     * TODO: Buscamos la nave a partir de la matricula pasada como parámetro
+     * Metodo que busca una nave a partir de la matricula pasado como parámetro
      * @param matricula
      * @return la nave que encontramos o null si no existe
      */
@@ -81,7 +87,9 @@ public class ListaNaves {
        }
        return nave;
     }
-    // TODO: Muestra por pantalla las naves de la lista con el formato indicado en el enunciado
+    /**
+     * Muestra todos las naves de la lista con su correspondiente formato
+     */
     public void mostrarNaves() {
         for (Nave nave : naves) {
             if (nave != null) {
@@ -93,14 +101,13 @@ public class ListaNaves {
 
 
     /**
-     * TODO: Permite seleccionar una nave existente a partir de su matrícula, y comprueba si dispone de un alcance
+     * Permite seleccionar una nave existente a partir de su matrícula, y comprueba si dispone de un alcance
      *  mayor o igual que el pasado como argumento, usando el mensaje pasado como argumento para la solicitud y
      *  siguiendo el orden y los textos mostrados en el enunciado.
-     *  La función solicita repetidamente la matrícula de la nave hasta que se introduzca una con alcance suficiente
      * @param teclado
      * @param mensaje
      * @param alcance
-     * @return
+     * @return nave
      */
     public Nave seleccionarNave(Scanner teclado, String mensaje, double alcance) {
         Nave nave=null;
@@ -132,9 +139,9 @@ public class ListaNaves {
 
 
     /**
-     * TODO: Genera un fichero CSV con la lista de Naves, SOBREESCRIBIÉNDOLO
+     *Genera un fichero CSV con la lista de Naves correspondiente
      * @param nombre
-     * @return
+     * @return si lo escribe devuelve true si no false
      */
     public boolean escribirNavesCsv(String nombre) {
         try (PrintWriter salida = new PrintWriter(nombre)) {
@@ -154,10 +161,10 @@ public class ListaNaves {
 
 
     /**
-     * TODO: Genera una lista de naves a partir del fichero CSV, usando el argumento como capacidad máxima de la lista
+     * Genera una lista de naves a partir del fichero CSV, usando  como capacidad la pasado como parametros
      * @param fichero
      * @param capacidad
-     * @return
+     * @return listaNave
      */
     public static ListaNaves leerNavesCsv(String fichero, int capacidad) {
         ListaNaves listaNaves = new ListaNaves(capacidad);

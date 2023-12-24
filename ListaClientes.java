@@ -5,15 +5,15 @@ import java.util.Scanner;
 /**
  * Description of the class
  *
- * @author
- * @author
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version 1.0
  */
 public class ListaClientes {
     private Cliente[] clientes;
 
     /**
-     * TODO: Constructor de la clase para inicializar la lista a una capacidad determinada
+     *Constructor de la clase
      *
      * @param capacidad
      */
@@ -22,9 +22,9 @@ public class ListaClientes {
     }
 
     /**
-     * @return
+     * Metodo que devuelve el número de clientes que hay en la lista
+     * @return la ocupacion de la lista
      */
-    // TODO: Devuelve el número de clientes que hay en la lista de clientes
     public int getOcupacion() {
         int contador = 0;
         for (int i = 0; i < clientes.length; i++) {
@@ -35,10 +35,10 @@ public class ListaClientes {
         return contador;
     }
 
-    /**
-     * @return
+    /*
+     * Metodo para comparar que esta llena la lista
+     * @return true si esta llena false si todovía hay espacios libres
      */
-    // TODO: ¿Está llena la lista de clientes?
     public boolean estaLlena() {
         boolean aux = true;
         for (int i = 0; i < clientes.length; i++) {
@@ -49,7 +49,7 @@ public class ListaClientes {
         return aux;
     }
 
-    // TODO: Devuelve el cliente dada el indice
+    // Devuelve el cliente dada la posición en la lista
     public Cliente getCliente(int i) {
         if (clientes[i] != null) {
             return clientes[i];
@@ -59,10 +59,11 @@ public class ListaClientes {
     }
 
     /**
+     * Insertamos una nuevo cliente en la lista
      * @param cliente
-     * @return
+     * @return true en caso de que se añada correctamente, false en caso de lista llena o error
      */
-    // TODO: Inserta el cliente en la lista de clientes
+
     public boolean insertarCliente(Cliente cliente) {
         if (estaLlena()) {
             return false;
@@ -72,8 +73,11 @@ public class ListaClientes {
         }
 
     }
-
-    // TODO: Devuelve el cliente que coincida con el email, o null en caso de no encontrarlo
+    /**
+     * Metodo que busca una cliente a partir de la matricula pasada como parámetro
+     * @param email
+     * @return el cliente que encontramos o null si no existe
+     */
     public Cliente buscarClienteEmail(String email) {
         Cliente aux = null;
         if(getOcupacion()!=0) {
@@ -87,13 +91,13 @@ public class ListaClientes {
     }
 
     /**
-     * TODO: Método para seleccionar un Cliente existente a partir de su email, usando el mensaje pasado como argumento
+     *  Método para seleccionar un Cliente existente a partir de su email, usando el mensaje pasado como argumento
      *  para la solicitud y, siguiendo el orden y los textos mostrados en el enunciado.
-     *  La función debe solicitar repetidamente hasta que se introduzca un email correcto
+     *
      *
      * @param teclado
      * @param mensaje
-     * @return
+     * @return cliente
      */
     public Cliente seleccionarCliente(Scanner teclado, String mensaje) {
         Cliente cliente = null;
@@ -110,11 +114,10 @@ public class ListaClientes {
     }
 
     /**
-     * TODO: Método para guardar la lista de clientes en un fichero .csv, sobreescribiendo la información del mismo
-     *  fichero
+     * Genera un fichero CSV con la lista de Clientes correspondiente
      *
      * @param fichero
-     * @return
+     * @return si lo escribe devuelve true si no false
      */
     public boolean escribirClientesCsv(String fichero) {
         try (PrintWriter salida = new PrintWriter(fichero)) {
@@ -134,7 +137,7 @@ public class ListaClientes {
     }
 
     /**
-     * TODO: Genera una lista de Clientes a partir del fichero CSV, usando los límites especificados como argumentos
+     * Genera una lista de Clientes a partir del fichero CSV, usando los límites especificados como argumentos
      *  para la capacidad de la lista y el número de billetes máximo por pasajero
      *
      * @param fichero

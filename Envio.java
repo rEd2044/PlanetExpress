@@ -20,7 +20,7 @@ public class Envio {
     private double precio;
 
     /**
-     * Constructor of the class
+     * Constructor de la  clase
      *
      * @param localizador
      * @param porte
@@ -39,55 +39,50 @@ public class Envio {
     }
 
     /**
-     *
-     * @return
+     *Metodo que devuelve el localizador
+     * @return localizador
      */
-    //metodo que devuelve el localizador
     public String getLocalizador() {
         return localizador;
     }
 
     /**
-     *
-     * @return
+     * Metodo que devuelve el porte
+     * @return porte
      */
-    //metodo que devuelve el porte
     public Porte getPorte() {
         return porte;
     }
 
     /**
-     *
-     * @return
+     * Metodo que devuelve el cliente
+     * @return cliente
      */
-    //metodo que devuelve el cliente
+
     public Cliente getCliente() {
         return cliente;
     }
 
     /**
-     *
-     * @return
+     * Metodo que devuelve la fila en la que se encuentra el envio
+     * @return fila
      */
-    // metodo que devuelve la fila en la que se encuentra el envio
     public int getFila() {
         return fila;
     }
 
     /**
-     *
-     * @return
+     *Metodo que devuelve la columna en la que se encuentar el envio
+     * @return columnna
      */
-    //metodo que devuelve la columna en la que se encuentar el envio
     public int getColumna() {
         return columna;
     }
 
     /**
-     *
-     * @return
+     * Devuelve el hueco
+     * @return String.valueOf(this.fila)+letra
      */
-    // TODO: Ejemplos: "1A" para el hueco con fila 1 y columna 1, "3D" para el hueco con fila 3 y columna 4
     public String getHueco() {
         char letra = '@';
         for(int i = 1; i<=this.columna;i++){
@@ -98,31 +93,28 @@ public class Envio {
     }
 
     /**
-     *
-     * @return
+     * Metodo que devuelve el precio del envio
+     * @return precio
      */
-    //metodo que devuelve el precio del envio
     public double getPrecio() {
         return precio;
     }
-//                                                     S     I     N            T    E     R    M    I     N     A     R
     /**
-     *
-     * @return
+     *Crea un String con el siguente formato
+     * @return "Envío PM1111AAAABBBBC para Porte PM0066 de GGT M5 (01/01/2023 08:15:00) a CID M1 (01/01/2024 11:00:05) en hueco 6C por 13424,56 SSD"
      */
-    //TODO: Texto que debe generar: Envío PM1111AAAABBBBC para Porte PM0066 de GGT M5 (01/01/2023 08:15:00) a CID M1 (01/01/2024 11:00:05) en hueco 6C por 13424,56 SSD
+
     public String toString() {
         return ("Envio "+this.localizador+" para "+this.porte.toStringSimple()+"en hueco "+getHueco()+" por "+this.porte.getPrecio()+" SSD");
 
     }
-    // TODO: Cancela este envío, eliminándolo de la lista de envíos del porte y del cliente correspondiente
+    // Cancela este envío, eliminándolo de la lista de envíos del porte y del cliente correspondiente
     public boolean cancelar() {
         return (this.cliente.cancelarEnvio(this.localizador));
     }
 
     /**
-     * TODO: Método para imprimir la información de este envío en un fichero que respecta el formato descrito en el
-     *  enunciado
+     * Método para imprimir la información de este envío en un fichero
      * @param fichero
      * @return Devuelve la información con el siguiente formato como ejemplo ->
      *     -----------------------------------------------------
@@ -167,14 +159,11 @@ public class Envio {
 
 
     /**
-     *	TODO: Genera un localizador de envío. Este consistirá en una cadena de 15 caracteres, de los cuales los seis
-	 *   primeros será el ID del porte asociado y los 9 siguientes serán letras mayúsculas aleatorias. Ejemplo: PM0123ABCD
-     *   NOTA: Usar el objeto rand pasado como argumento para la parte aleatoria.
+     *	Genera un localizador de envío.
      * @param rand
      * @param idPorte
-     * @return
+     * @return idPorte + letrasAleatorias
      */
-    //                                       P R E G U N T A R   S I   S E   P U E D E  H A C E R   A S I
     public static String generarLocalizador(Random rand, String idPorte) {
         char aux ;
         StringBuilder letrasAleatorias = new StringBuilder();
@@ -191,8 +180,8 @@ public class Envio {
 
 
     /**
-     * TODO: Método para crear un nuevo envío para un porte y cliente específico, pidiendo por teclado los datos
-     *  necesarios al usuario en el orden y con los textos indicados en los ejemplos de ejecución del enunciado
+     *  Método para crear un nuevo envío para un porte y cliente específico, pidiendo por teclado los datos
+     *  necesarios al usuario en el orden.
      *  La función solicita repetidamente los parámetros hasta que sean correctos
      * @param teclado
      * @param rand

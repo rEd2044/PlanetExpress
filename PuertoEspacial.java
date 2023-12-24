@@ -15,7 +15,7 @@ public class PuertoEspacial {
     private int numMuelles;
 
     /**
-     * Constructor of the class
+     * Constructor de la clase
      *
      * @param nombre
      * @param codigo
@@ -53,20 +53,19 @@ public class PuertoEspacial {
     }
 
     /**
-     * TODO: Método para calcular la distancia entre el puerto espacial que recibe el mensaje y el puerto
-     *  espacial "destino" siguiendo las ecuaciones del enunciado (Las formulas se encuentran en el enunciado)
+     *  Método para calcular la distancia entre el puerto espacial que recibe el mensaje y el puerto
+     *  espacial destino
+     *
      * @param destino
-     * @return
+     * @return un double que es la distancia calculada
      */
     public double distancia(PuertoEspacial destino) {
-        // TODO: Para calcular la distancia entre dos Puertos Espaciales, se transforman sus coordenadas esféricas a cartesianas
         double x1=radio*Math.sin(azimut)*Math.cos(polar),
         y1=radio*Math.sin(azimut)*Math.cos(polar),
         z1= radio *Math.cos(azimut);
         double x2= destino.getRadio()*Math.sin(destino.getAzimut())*Math.cos(destino.getPolar()),
                 y2=destino.getRadio()*Math.sin(destino.getAzimut())*Math.cos(destino.getPolar()),
                 z2= destino.getRadio()*Math.cos(destino.getAzimut());
-        // TODO: Una vez se tienen las coordenadas cartesianas, basta con calcular la distancia euclídea entre ellas:
         double x=Math.pow((x2-x1),2),
         y=Math.pow((y2-y1),2),
         z=Math.pow(z2-z1,2);
@@ -74,16 +73,16 @@ public class PuertoEspacial {
     }
 
     /**
-     * TODO: Método que crea un String con los datos de un puerto espacial con el siguiente formato:
-     * @return ejemplo -> "Gaia Galactic Terminal(GGT), en (1.0 90.0 0.0), con 8 muelles" (Radio, Azimut, Polar)
+     * Método que crea un String con los datos del puerto espacial
+     * @return  "Gaia Galactic Terminal(GGT), en (1.0 90.0 0.0), con 8 muelles" (Radio, Azimut, Polar)
      */
     public String toString() {
         return nombre+"("+codigo+"), en ("+radio+" "+azimut+" "+polar+"), con "+numMuelles+" muelles";
     }
 
     /**
-     * TODO: Método que crea un String con los datos de un aeropuerto con el siguiente formato:
-     * @return ejemplo -> "Gaia Galactic Terminal (GGT)"
+     * Método que crea un String con los datos de un aeropuerto
+     * @return "Gaia Galactic Terminal (GGT)"
      */
     public String toStringSimple() {
         return nombre+"("+codigo+")";

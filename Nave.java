@@ -15,7 +15,7 @@ public class Nave {
 
 
     /**
-     * Constructor of the class
+     * Constructor de la clase
      *
      * @param marca
      * @param modelo
@@ -53,8 +53,8 @@ public class Nave {
 
 
     /**
-     * TODO: Crea un String con los datos de una nave con el siguiente formato:
-     * @return ejemplo del formato -> "Planet Express One (EP-245732X): 40 contenedores, hasta 1.57 UA"
+     * Crea un String con los datos de la nave
+     * @return "Planet Express One (EP-245732X): 40 contenedores, hasta 1.57 UA"
      */
     public String toString() {
         return marca+" "+modelo+" ("+matricula+"): "+(columnas*filas)+" contenedores, hasta "+alcance+"UA";
@@ -62,8 +62,8 @@ public class Nave {
 
 
     /**
-     * TODO: Crea un String con los datos de una nave con el siguiente formato:
-     * @return ejemplo del formato -> "Planet Express One (EP-245732X)"
+     * Crea un String con los datos de la nave
+     * @return "Planet Express One (EP-245732X)"
      */
     public String toStringSimple() {
         return marca+" "+modelo+" ("+matricula+")";

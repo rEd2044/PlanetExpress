@@ -15,7 +15,7 @@ public class Cliente {
     private final String email;
 
     /**
-     * Constructor of the class
+     * Constructor de la  clase
      *
      * @param nombre    Nombre del cliente
      * @param apellidos Apellidos del cliente
@@ -30,33 +30,33 @@ public class Cliente {
     }
 
     /**
-     * @return
+     * Metodo que devuelve el nombre del cliente
+     * @return nombre
      */
-    //metodo que devuelve el nombre del cliente
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * @return
+     * Devuelve el apellido del cliente
+     * @return apellido
      */
-    // Devuelve el apellido del cliente
     public String getApellidos() {
         return apellidos;
     }
 
     /**
-     * @return
+     * Devuelve el Email del cliente
+     * @return email
      */
-    // Devuelve el Email del cliente
     public String getEmail() {
         return email;
     }
 
     /**
-     * @return
+     * Escribe un String con el formato indicado
+     * @return "Zapp Brannigan, zapp.brannigan@alumnos.upm.es"
      */
-    // TODO: Texto que debe generar: Zapp Brannigan, zapp.brannigan@dop.gov
     public String toString() {
         String aux;
         return aux = this.nombre.toLowerCase() + "." + this.apellidos.toLowerCase() + "@alumnos.upm.es";
@@ -64,9 +64,9 @@ public class Cliente {
     }
 
     /**
-     * @return
+     * Metodo booleano que indica si se ha alcanzado el número máximo de envíos
+     * @return true si esta llenada la listaenvios o false si hay espacios libres
      */
-    // TODO: Devuelve un booleano que indica si se ha alcanzado el número máximo de envíos
     public boolean maxEnviosAlcanzado() {
         return this.listaEnvios.estaLlena();
     }
@@ -135,16 +135,14 @@ public class Cliente {
 
 
     /**
-     *
+     * Método estático para crear un nuevo cliente "no repetido", se pide por teclado los datos necesarios
+     * al usuario en el orden
+     * La función tiene que solicitar repetidamente los parámetros hasta que sean correctos
      * @param teclado
      * @param clientes
      * @param maxEnvios
      * @return Cliente
      */
-    //TODO: Método estático para crear un nuevo cliente "no repetido", se pide por teclado los datos necesarios
-    //al usuario en el orden y con los textos indicados en los ejemplos de ejecución del enunciado
-    //La función tiene que solicitar repetidamente los parámetros hasta que sean correctos
-    //          P   O   S   I   B   L   E                  F   A   L   L   O
     public static Cliente altaCliente(Scanner teclado, ListaClientes clientes, int maxEnvios) {
         String email, nombre, apellidos;
         do {
@@ -168,12 +166,12 @@ public class Cliente {
 
 
     /**
-     *
+     * Metodo para comprobar que el formato de email introducido sea correcto
      *
      * @param email
-     * @return
+     * @return true si es correcto o false si no lo es
      */
-    // TODO: Metodo para comprobar que el formato de email introducido sea correcto
+
     public static boolean correctoEmail(String email) {
         email.contains("@alumnos.upm.es");
         if (email.contains("@alumnos.upm.es")) {

@@ -13,7 +13,7 @@ public class ListaPortes {
     private Porte[] portes;
 
     /**
-     * TODO: Constructor de la clase para inicializar la lista a una capacidad determinada
+     * Constructor de la clase
      *
      * @param capacidad
      */
@@ -21,7 +21,10 @@ public class ListaPortes {
         this.portes = new Porte[capacidad];
     }
 
-    // TODO: Devuelve el número de portes que hay en la lista
+    /**
+     * Metodo que devuelve el número de portes que hay en la lista
+     * @return la ocupacion de la lista
+     */
     public int getOcupacion() {
         int ocupacion = 0;
         int i = 0;
@@ -36,7 +39,10 @@ public class ListaPortes {
         return ocupacion;
     }
 
-    // TODO: ¿Está llena la lista?
+    /*
+     * Metodo para comparar que esta llena la lista
+     * @return true si esta llena false si todovía hay espacios libres
+     */
     public boolean estaLlena() {
         int ocupacion = getOcupacion();
         if (ocupacion == portes.length) {
@@ -47,17 +53,17 @@ public class ListaPortes {
 
     }
 
-    //TODO: devuelve un porte dado un indice
+    //Devuelve un porte dado poscicíon
     public Porte getPorte(int i) {
         return portes[i];
     }
 
 
     /**
-     * TODO: Devuelve true si puede insertar el porte
+     * Insertamos un porte nuevo en la lista
      *
      * @param porte
-     * @return false en caso de estar llena la lista o de error
+     * @return false en caso de estar llena la lista o de error o true si es inserta correctamente
      */
     public boolean insertarPorte(Porte porte) {
         if (estaLlena()) {
@@ -70,7 +76,7 @@ public class ListaPortes {
 
 
     /**
-     * TODO: Devuelve el objeto Porte que tenga el identificador igual al parámetro id
+     * Metodo que busca un porte a partir del id pasado como parámetro
      *
      * @param id
      * @return el objeto Porte que encontramos o null si no existe
@@ -86,13 +92,13 @@ public class ListaPortes {
     }
 
     /**
-     * TODO: Devuelve un nuevo objeto ListaPortes conteniendo los Portes que vayan de un puerto espacial a otro
+     * Devuelve un nuevo objeto ListaPortes conteniendo los Portes que vayan de un puerto espacial a otro
      *  en una determinada fecha
      *
      * @param codigoOrigen
      * @param codigoDestino
      * @param fecha
-     * @return
+     * @return listaPortes o null si no la encontrado
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
         ListaPortes listaPortes = null;
@@ -109,7 +115,7 @@ public class ListaPortes {
     }
 
     /**
-     * TODO: Muestra por pantalla los Portes siguiendo el formato de los ejemplos del enunciado
+     * Muestra todos los portes de la lista con su correspondiente formato
      */
     public void listarPortes() {
         for (int i = 0; i < getOcupacion(); i++) {
@@ -121,15 +127,16 @@ public class ListaPortes {
 
 
     /**
-     * TODO: Permite seleccionar un Porte existente a partir de su ID, usando el mensaje pasado como argumento para
-     *  la solicitud y siguiendo el orden y los textos mostrados en el enunciado, y usando la cadena cancelar para
-     *  salir devolviendo null.
-     *  La función solicita repetidamente hasta que se introduzca un ID correcto
+     * Permite seleccionar un porte existente a partir de su id, usando el mensaje pasado como
+     * argumento para la solicitud y siguiendo el orden y los textos mostrados en el enunciado.
+     * Si recibe CANCELAR vuelve al menú
+     *
+     *
      *
      * @param teclado
      * @param mensaje
      * @param cancelar
-     * @return
+     * @return  porte seleccionado o null si le has escrito CANCELAR
      */
     public Porte seleccionarPorte(Scanner teclado, String mensaje, String cancelar) {
         Porte porte = null;
@@ -157,11 +164,10 @@ public class ListaPortes {
     }
 
     /**
-     * TODO: Ha de escribir la lista de Portes en la ruta y nombre del fichero pasado como parámetro.
-     *  Si existe el fichero, SE SOBREESCRIBE, si no existe se crea.
+     * Ha de escribir la lista de Portes en la ruta y nombre del fichero pasado como parámetro.
      *
      * @param fichero
-     * @return
+     * @return si lo escribe devuelve true si no false
      */
     public boolean escribirPortesCsv(String fichero) {
         try (PrintWriter salida = new PrintWriter(fichero)) {
@@ -182,18 +188,17 @@ public class ListaPortes {
         }
 
     }
-    //salida.print(por.getID()+";"+por.getNave()+";"+por.getOrigen()+";"+por.getMuelleOrigen()+";"+por.getSalida()+";"
-    //                            +por.getDestino()+";"+por.getMuelleDestino()+";"+por.getLlegada()+";"+por.getPrecio());
 
     /**
-     * TODO: Genera una lista de Portes a partir del fichero CSV, usando los límites especificados como argumentos para
-     *  la capacidad de la lista
+     * Genera una lista de Portes a partir del fichero CSV, usando  como capacidad la pasado como parametros
+     *
      *
      * @param fichero
      * @param capacidad
      * @param puertosEspaciales
      * @param naves
-     * @return
+     * @return listaportes
+     *
      */
     public static ListaPortes leerPortesCsv(String fichero, int capacidad, ListaPuertosEspaciales puertosEspaciales, ListaNaves naves) {
         ListaPortes listaPortes = new ListaPortes(capacidad);
