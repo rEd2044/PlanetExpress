@@ -1,7 +1,7 @@
 /**
  * Description of the class
- *
- * @author Marcos Cerrada Garcia
+ *<p>
+ * @author Marcos Cerrada García
  * @author Mario Blasco Puente
  * @version     1.0
  */

@@ -6,7 +6,7 @@ import java.util.SimpleTimeZone;
 
 /**
  * Description of the class
- *
+ *<p>
  * @author Marcos Cerrada García
  * @author Mario Blasco Puente
  * @version     1.0
@@ -93,7 +93,7 @@ public class ListaNaves {
     public void mostrarNaves() {
         for (Nave nave : naves) {
             if (nave != null) {
-                System.out.println("\t"+nave.toString());
+                System.out.println("\t"+ nave);
             }
         }
     }
@@ -111,7 +111,7 @@ public class ListaNaves {
      */
     public Nave seleccionarNave(Scanner teclado, String mensaje, double alcance) {
         Nave nave=null;
-        teclado.nextLine();
+       // teclado.nextLine(); ESTA LINEA DA PROBLEMAS AL EJECUTAR LA OPCION 1 DEL MENU
         System.out.print(mensaje);
         String matricula=teclado.nextLine();
         while(buscarNave(matricula)==null){

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * Description of the class
- *
+ *<p>
  * @author Marcos Cerrada García
  * @author Mario Blasco Puente
  * @version 1.0
@@ -120,7 +120,9 @@ public class ListaClientes {
      * @return si lo escribe devuelve true si no false
      */
     public boolean escribirClientesCsv(String fichero) {
-        try (PrintWriter salida = new PrintWriter(fichero)) {
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(fichero);
             for (int i = 0; i < clientes.length; i++) {
                 if (clientes[i] != null) {
                     Cliente cliente = clientes[i];
@@ -130,8 +132,12 @@ public class ListaClientes {
 
             return true;
         } catch (FileNotFoundException e) {
-            System.out.println("Error de escritura en fichero " + fichero);
+            System.err.println("No se ha encontrado el fichero " + fichero);
             return false;
+        } finally{
+            if(salida!=null){
+                salida.close();
+            }
         }
 
     }

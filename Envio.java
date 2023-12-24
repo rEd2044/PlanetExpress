@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 /**
  * Description of the class
- *
- * Marcos Cerrada García
- * Mario Blasco Puente
+ *<p>
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version     1.0
  */
 public class Envio {

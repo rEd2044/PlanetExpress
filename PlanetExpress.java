@@ -6,8 +6,9 @@ import java.util.Scanner;
 
 /**
  * Clase principal de Planet Express App, la práctica de Taller de Programación
- *
- * @author      Taller de Progamación
+ *<p>
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version     1.0
  */
 public class PlanetExpress {
@@ -151,7 +152,6 @@ public class PlanetExpress {
                     Cliente cliente = listaClientes.seleccionarCliente(teclado, "Email del cliente: ");
                     Envio envio = Envio.altaEnvio(teclado, rand, porte, cliente);
                     cliente.aniadirEnvio(envio);
-                    porte.aniadirEnvio(envio);
                     porte.ocuparHueco(envio);
                     System.out.println("\tEnvío " + envio.getLocalizador() + " creado correctamente");
                 }
@@ -161,7 +161,6 @@ public class PlanetExpress {
                 listaClientes.insertarCliente(cliente);
                 Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
                 cliente.aniadirEnvio(envio);
-                porte.aniadirEnvio(envio);
                 porte.ocuparHueco(envio);
 
                 System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
@@ -186,6 +185,7 @@ public class PlanetExpress {
                 5. Generar lista de envíos
                 0. Salir""");
         return Utilidades.leerNumero(teclado,"Seleccione una opción: ",0,5);
+
     }
 
     /**
@@ -221,7 +221,11 @@ public class PlanetExpress {
         ListaNaves listaNaves=planetExpress.listaNaves;
         ListaPortes listaPortes=planetExpress.listaPortes;
         ListaClientes listaClientes=planetExpress.listaClientes;
+        int contador = 0;
         do {
+            if(contador!=0){
+                teclado.nextLine();
+            }
             opcion = menu(teclado);
             switch (opcion) {
                 case 1:     // TODO: Alta de Porte
@@ -230,6 +234,7 @@ public class PlanetExpress {
                     }else{
                         teclado.nextLine();
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
+                        planetExpress.insertarPorte(porte);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente
@@ -245,7 +250,7 @@ public class PlanetExpress {
                     if(listaPortes.getOcupacion()==0){
                         System.out.println("\tLa lista esta vacía no se puede buscar");
                     }else {
-                        teclado = new Scanner(System.in);
+                       // teclado = new Scanner(System.in);
                         ListaPortes portes=planetExpress.buscarPorte(teclado);
                         portes.listarPortes();
                         System.out.println( );

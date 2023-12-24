@@ -13,7 +13,7 @@ import java.util.jar.Manifest;
 
 /**
  * Description of the class
- *
+ *<p>
  * @author Marcos Cerrada García
  * @author Mario Blasco Puente
  * @version 1.0
@@ -55,14 +55,13 @@ public class Porte {
         this.llegada = llegada;
         this.precio = precio;
         this.huecos = new boolean[nave.getFilas()][nave.getColumnas()];
-        int ocupacion = 0;
         for (int i = 0; i < nave.getFilas(); i++) {
             for (int j = 0; j < nave.getColumnas(); j++) {
-                huecos[i][j] = false;
-                ocupacion++;
+                huecos[i][j] = true;
+
             }
         }
-        this.listaEnvios = new ListaEnvios(ocupacion);
+        this.listaEnvios=new ListaEnvios(numHuecosLibres());
     }
 
     public String getID() {
@@ -124,7 +123,10 @@ public class Porte {
 
     // Metodo que devuelve si el hueco esta ocupado
     public boolean huecoOcupado(int fila, int columna) {
-        return huecos[fila][columna];
+        if(!huecos[fila][columna]){
+            return true;
+        }
+        return false;
     }
 
     public Envio buscarEnvio(String localizador) {
@@ -164,9 +166,13 @@ public class Porte {
     public boolean ocuparHueco(Envio envio) {
         int fila = envio.getFila();
         int columna = envio.getColumna();
-        System.out.println(fila + "," + columna);
-        huecos[fila][columna] = true;
-        return !huecoOcupado(fila, columna);
+        if(huecoOcupado(fila,columna)){
+            huecos[fila][columna] = false;
+            this.listaEnvios.insertarEnvio(envio);
+            return true;
+        }else{
+            return false;
+        }
     }
 
 
@@ -177,10 +183,10 @@ public class Porte {
      * @return true si lo desocupa o false si no lo consigue
      */
     public boolean desocuparHueco(String localizador) {
-        int fila = buscarEnvio(localizador).getFila();
-        int columna = buscarEnvio(localizador).getColumna();
-        huecos[fila][columna] = false;
-        return huecoOcupado(fila, columna);
+            int fila = buscarEnvio(localizador).getFila();
+            int columna = buscarEnvio(localizador).getColumna();
+            huecos[fila][columna] = false;
+        return huecoOcupado(fila,columna);
     }
 
     /**
@@ -270,7 +276,7 @@ public class Porte {
                 }
             }
             System.out.println("Fichero creado correctamente");
-            return true;
+             return true;
         } catch (FileNotFoundException ex) {
             System.out.println("Fichero no creado correctamente");
             return false;
@@ -320,9 +326,10 @@ public class Porte {
         String id = generarID(rand);
         PuertoEspacial origen = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Origen: ");
         int muelleOrigen = Utilidades.leerNumero(teclado, "Ingrese el muelle de Origen (1-4): ", 1, 4);
-        teclado = new Scanner(System.in);
+        teclado.nextLine();
         PuertoEspacial destino = puertosEspaciales.seleccionarPuertoEspacial(teclado, "Ingrese código de puerto Destino: ");
         int muelleDestino = Utilidades.leerNumero(teclado, "Ingrese Terminal Destino (1-6): ", 1, 6);
+        teclado.nextLine();
         naves.mostrarNaves();
         Nave nave = naves.seleccionarNave(teclado, "Ingrese matrícula de la nave: ", origen.distancia(destino));
         Fecha fechasalida = Utilidades.leerFechaHora(teclado, "Introduzca la fecha de salida:");
@@ -332,12 +339,7 @@ public class Porte {
             fechasalida = Utilidades.leerFechaHora(teclado, "Fecha de salida:");
             fechallegada = Utilidades.leerFechaHora(teclado, "Fecha de llegada: ");
         }
-        System.out.print("Ingrese precio de pasaje: ");
-        double precio = teclado.nextDouble();
-        while (precio <= 0.0) {
-            System.out.print("Ingrese precio de pasaje: ");
-            precio = teclado.nextDouble();
-        }
+        double precio = Utilidades.leerNumero(teclado,"Ingrese precio de pasaje: ",1,999999999);
         Porte porte = new Porte(id, nave, origen, muelleOrigen, fechasalida, destino, muelleDestino, fechallegada, precio);
         System.out.println("\tPorte " + porte.getID() + " creado correctamente");
         portes.insertarPorte(porte);

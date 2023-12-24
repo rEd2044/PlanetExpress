@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 /**
  * Description of the class
- *
- * Marcos Cerrada García
- * Mario Blasco Puente
+ *<p>
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version 1.0
  */
 public class ListaEnvios {
@@ -203,7 +203,6 @@ public class ListaEnvios {
                     double precio = Double.parseDouble(parametros[5]);
                     Envio envio = new Envio(parametros[0], porte, cliente, fila, columna, precio);
                     cliente.aniadirEnvio(envio);
-                    porte.aniadirEnvio(envio);
                     porte.ocuparHueco(envio);
                     porte.imprimirMatrizHuecos();
                     parametros = linea.split(";");

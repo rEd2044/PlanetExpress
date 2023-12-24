@@ -2,9 +2,9 @@ import java.util.Scanner;
 
 /**
  * Description of the classs
- *
- * Marcos Cerrada García
- * Mario Blasco Puente
+ *<p>
+ * @author Marcos Cerrada García
+ * @author Mario Blasco Puente
  * @version 1.0
  */
 public class Cliente {
@@ -155,7 +155,8 @@ public class Cliente {
                 if(correctoEmail(email)){
                     System.out.println("Cliente con email "+ email + " creado correctamente.");
                 }else{
-                    System.out.println("Formato de email incorrecto.");
+                    System.out.println("Formato de email incorrecto."+
+                            "\nDebe terminar por @alumnos.upm.es");
 
                 }
             }
