@@ -145,7 +145,7 @@ public class Envio {
             factura.println("-----------------------------------------------------"+
                           "\n--------- Factura del envío PM1111AAAABBBBC ---------"+
                           "\n-----------------------------------------------------"+
-                          "\nPorte: "+this.porte.getID()+
+                          "\nPorte: "+ this.porte.getID()+
                           "\nOrigen: "+this.porte.getOrigen()+
                           "\nDestino: "+this.porte.getDestino()+
                           "\nSalida: "+this.porte.getSalida()+

@@ -76,10 +76,10 @@ public class ListaPortes {
      * @return el objeto Porte que encontramos o null si no existe
      */
     public Porte buscarPorte(String id) {
-        Porte porte=null;
-        for(int i=0;i<getOcupacion();i++) {
+        Porte porte = null;
+        for (int i = 0; i < getOcupacion(); i++) {
             if (Objects.equals(id, getPorte(i).getID())) {
-               porte=getPorte(i);
+                porte = getPorte(i);
             }
         }
         return porte;
@@ -96,14 +96,14 @@ public class ListaPortes {
      */
     public ListaPortes buscarPortes(String codigoOrigen, String codigoDestino, Fecha fecha) {
         ListaPortes listaPortes = null;
-            for (int i = 0; i < getOcupacion(); i++) {
-                if (portes[i].coincide(codigoOrigen, codigoDestino, fecha)) {
-                    Porte porte=portes[i];
-                    listaPortes =new ListaPortes(getOcupacion());
-                    listaPortes.insertarPorte(porte);
-                }
-
+        for (int i = 0; i < getOcupacion(); i++) {
+            if (portes[i].coincide(codigoOrigen, codigoDestino, fecha)) {
+                Porte porte = portes[i];
+                listaPortes = new ListaPortes(getOcupacion());
+                listaPortes.insertarPorte(porte);
             }
+
+        }
 
         return listaPortes;
     }
@@ -113,9 +113,9 @@ public class ListaPortes {
      */
     public void listarPortes() {
         for (int i = 0; i < getOcupacion(); i++) {
-           if(getPorte(i)!=null) {
-               System.out.println(getPorte(i).toStringSimple());
-           }
+            if (getPorte(i) != null) {
+                System.out.println(getPorte(i).toStringSimple());
+            }
         }
     }
 
@@ -133,18 +133,27 @@ public class ListaPortes {
      */
     public Porte seleccionarPorte(Scanner teclado, String mensaje, String cancelar) {
         Porte porte = null;
-        do{
+        boolean aux1 =false;
+        String aux;
+        do {
             System.out.print(mensaje);
-            String id = teclado.nextLine();;
+            String id = teclado.nextLine();
             porte=buscarPorte(id);
-            if (Objects.equals(id, cancelar)) {
-                return null;
+            aux= id.toUpperCase();
+            if (Objects.equals(aux, cancelar)) {
+                aux1 = true;
             }
-            if(porte==null) {
+            if(porte==null){
                 System.out.println("\t Porte no encontrado");
+            }else{
+                aux1= true;
             }
-        }while(porte==null);
-        return porte;
+        } while (!aux1);
+        if(Objects.equals(aux,cancelar)){
+            return null;
+        }else{
+            return porte;
+        }
     }
 
     /**
@@ -156,9 +165,9 @@ public class ListaPortes {
      */
     public boolean escribirPortesCsv(String fichero) {
         try (PrintWriter salida = new PrintWriter(fichero)) {
-            if(estaLlena()){
+            if (estaLlena()) {
                 return true;
-            }else {
+            } else {
                 for (int i = 0; i < getOcupacion(); i++) {
                     if (portes[i] != null) {
                         Porte por = portes[i];
@@ -190,9 +199,9 @@ public class ListaPortes {
         ListaPortes listaPortes = new ListaPortes(capacidad);
         BufferedReader leer = null;
         try {
-            leer= new BufferedReader(new FileReader(fichero));
+            leer = new BufferedReader(new FileReader(fichero));
             String linea;
-            while ((linea = leer.readLine()) != null){
+            while ((linea = leer.readLine()) != null) {
                 String[] parametros = linea.split(";");
                 Nave nave = naves.buscarNave(parametros[1]);
                 PuertoEspacial origen = puertosEspaciales.buscarPuertoEspacial(parametros[2]);
@@ -208,7 +217,7 @@ public class ListaPortes {
 
 
         } catch (IOException ex) {
-            System.err.println("Fichero " + fichero+ " no encontrado");
+            System.err.println("Fichero " + fichero + " no encontrado");
             return null;
         } finally {
             try {

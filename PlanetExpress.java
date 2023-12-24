@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class PlanetExpress {
 
 
     /**
-     * TODO: Rellene el constructor de la clase
+     * Constructor de la clase inicializa los atributos necesarios
      *
      * @param maxPuertosEspaciales Máximo número de puertos espaciales que tendrá la lista de puertos espaciales de PlanetExpress App.
      * @param maxNaves Máximo número de naves que tendrá la lista de naves de PlanetExpress App.
@@ -40,11 +41,10 @@ public class PlanetExpress {
         this.listaNaves=new ListaNaves(maxNaves);
         this.listaClientes=new ListaClientes(maxClientes);
         this.listaPortes=new ListaPortes(maxPortes);
-        ListaEnvios listaEnvios=new ListaEnvios(maxEnviosPorCliente);
     }
     /**
-     * TODO: Metodo para leer los datos de los ficheros específicados en el enunciado y los agrega a
-     *  la información de PlanetExpress (listaPuertosEspaciales, listaNaves, listaPortes, listaClientes)
+     * Metodo para leer los datos de los ficheros.csv y agrega la información a Planet express.
+     *
      * @param ficheroPuertos
      * @param ficheroNaves
      * @param ficheroPortes
@@ -63,8 +63,8 @@ public class PlanetExpress {
 
 
     /**
-     * TODO: Metodo para almacenar los datos de PlanetExpress en los ficheros .csv especificados
-     *  en el enunciado de la práctica
+     * Metodo para almacenar los datos de PlanetExpress en los ficheros.csv
+     *
      * @param ficheroPuertos
      * @param ficheroNaves
      * @param ficheroPortes
@@ -76,14 +76,16 @@ public class PlanetExpress {
         listaNaves.escribirNavesCsv(ficheroNaves);
         listaClientes.escribirClientesCsv(ficheroClientes);
         listaPortes.escribirPortesCsv(ficheroPortes);
+        ListaEnvios listaTodosEnvios = new ListaEnvios(maxEnviosPorCliente*listaClientes.getOcupacion());
         for(int i=0;i<listaClientes.getOcupacion();i++){
-                Cliente cliente=listaClientes.getCliente(i);
-                 ListaEnvios listaEnvios=cliente.getListaEnvios();
-                 listaEnvios.aniadirEnviosCsv(ficheroEnvios);
-
+            ListaEnvios listaEnvios = listaClientes.getCliente(i).getListaEnvios();
+            for (int j=0;j<listaEnvios.getOcupacion();j++){
+                if(listaEnvios.getEnvio(j)!=null) {
+                    listaTodosEnvios.insertarEnvio(listaEnvios.getEnvio(j));
+                }
+            }
         }
-
-
+        listaTodosEnvios.aniadirEnviosCsv(ficheroEnvios);
     }
     public boolean maxPortesAlcanzado() {
         return listaPortes.estaLlena();
@@ -99,12 +101,11 @@ public class PlanetExpress {
     }
 
     /**
-     * TODO: Metodo para buscar los portes especificados tal y como aparece en el enunciado de la práctica,
-     *  Devuelve una lista de los portes entre dos puertos espaciales con una fecha de salida solicitados por teclado
-     *  al usuario en el orden y con los textos establecidos (tomar como referencia los ejemplos de ejecución en el
-     *  enunciado de la prática)
+     * Metodo para buscar los portes especificados.Devuelve una lista de los portes entre dos puertos espaciales
+     * con una fecha de salida solicitados por teclado al usuario
+     *
      * @param teclado
-     * @return
+     * @return listaporte donde esta los portes encontrados con esas especificaciones puede ser uno o dos.
      */
     public ListaPortes buscarPorte(Scanner teclado) {
         ListaPortes listaPortes1 = null;
@@ -133,9 +134,9 @@ public class PlanetExpress {
 
 
     /**
-     * TODO: Metodo para contratar un envio tal y como se indica en el enunciado de la práctica. Se contrata un envio para un porte
-     *  especificado, pidiendo por teclado los datos necesarios al usuario en el orden y con los textos (tomar como referencia los
-     *  ejemplos de ejecución en el enunciado de la prática)
+     * Metodo para contratar un envio. Se contrata un envio para un porte especificado, pidiendo por teclado los datos neceserarios
+     * al usuario.
+     *
      * @param teclado
      * @param rand
      * @param porte
@@ -150,6 +151,8 @@ public class PlanetExpress {
                     Cliente cliente = listaClientes.seleccionarCliente(teclado, "Email del cliente: ");
                     Envio envio = Envio.altaEnvio(teclado, rand, porte, cliente);
                     cliente.aniadirEnvio(envio);
+                    porte.aniadirEnvio(envio);
+                    porte.ocuparHueco(envio);
                     System.out.println("\tEnvío " + envio.getLocalizador() + " creado correctamente");
                 }
             }else {
@@ -158,6 +161,9 @@ public class PlanetExpress {
                 listaClientes.insertarCliente(cliente);
                 Envio envio=Envio.altaEnvio(teclado,rand,porte,cliente);
                 cliente.aniadirEnvio(envio);
+                porte.aniadirEnvio(envio);
+                porte.ocuparHueco(envio);
+
                 System.out.println("\tEnvío "+envio.getLocalizador()+" creado correctamente");
             }
         }
@@ -166,7 +172,7 @@ public class PlanetExpress {
 
 
     /**
-     * TODO Metodo statico con la interfaz del menú de entrada a la App.
+     *  Metodo statico con la interfaz del menú de entrada a la APP
      * Tiene que coincidir con las trazas de ejecución que se muestran en el enunciado
      * @param teclado
      * @return opción seleccionada
@@ -183,9 +189,10 @@ public class PlanetExpress {
     }
 
     /**
-     * TODO: Método Main que carga los datos de los ficheros CSV pasados por argumento (consola) en PlanetExpress,
-     *  llama iterativamente al menú y realiza la opción especificada hasta que se indique la opción Salir. Al finalizar
-     *  guarda los datos de PlanetExpress en los mismos ficheros CSV.
+     * Método Main que carga los datos del fichero CSV pasados por argumento, llama iterativamente al
+     * menú y realiza la opción es cogida hasta que le des la opción de Salir. Al finalizar
+     * guarda los datos en los ficheros .csv pasados como argumento
+     *
      * @param args argumentos de la línea de comandos, recibe **10 argumentos** estrictamente en el siguiente orden:
      * 1. Número máximo de puertos espaciales que tendrá la lista de puertos espaciales de PlanetExpress App.
      * 2. Número máximo de naves que tendrá la lista de naves de PlanetExpress App.
@@ -223,7 +230,6 @@ public class PlanetExpress {
                     }else{
                         teclado.nextLine();
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
-                        listaPortes.escribirPortesCsv(args[7]);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente
@@ -233,7 +239,6 @@ public class PlanetExpress {
                         teclado.nextLine();
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
                         planetExpress.insertarCliente(cliente);
-                        listaClientes.escribirClientesCsv(args[8]);
                     }
                     break;
                 case 3:     // TODO: Buscar Porte
@@ -245,9 +250,9 @@ public class PlanetExpress {
                         portes.listarPortes();
                         System.out.println( );
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte: ", "CANCELAR");
-                        planetExpress.contratarEnvio(teclado,rand,porte);
-                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
-
+                        if(porte !=null){
+                            planetExpress.contratarEnvio(teclado,rand,porte);
+                        }
                     }
                     break;
                 case 4:     // TODO: Listado de envíos de un cliente
@@ -274,7 +279,6 @@ public class PlanetExpress {
                             }
                         }
                     }
-                    planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
                     break;
                 case 5:     // TODO: Lista de envíos de un porte
                     if(listaPortes.getOcupacion()==0){
@@ -283,14 +287,16 @@ public class PlanetExpress {
                         listaPortes.listarPortes();
                         teclado=new Scanner(System.in);
                         Porte porte = listaPortes.seleccionarPorte(teclado, "Seleccione un porte:", "CANCELAR");
-                        System.out.print("Nombre del fichero: ");
-                        String nomFich = teclado.nextLine();
-                        porte.generarListaEnvios(nomFich);
+                        if(porte !=null){
+                            System.out.print("Nombre del fichero: ");
+                            String nomFich = teclado.nextLine();
+                            porte.generarListaEnvios(nomFich);
+                        }
                     }
                     break;
             }
+            planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
         } while (opcion != 0);
-
 
     }
 }

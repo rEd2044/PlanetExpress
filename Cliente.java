@@ -72,46 +72,45 @@ public class Cliente {
     }
 
     /**
+     * Devuelve el envio en función de su posición
      * @param i
-     * @return
+     * @return envio de la posición indicada o null si no existe
      */
-    // TODO: Devuelve un envío en función de su posición
     public Envio getEnvio(int i) {
         return this.listaEnvios.getEnvio(i);
     }
 
     /**
-     * @return
+     * Devuelve la lista de envios
+     * @return listaEnvios
      */
-    //Devuelve la lista de envios
     public ListaEnvios getListaEnvios() {
         return listaEnvios;
     }
 
     /**
+     *  Añade un envio al cliente
      * @param envio
-     * @return
+     * @return true si consiguio añadir bien el envio o false si no lo consiguio
      */
-    // TODO: Añade un envío al cliente
     public boolean aniadirEnvio(Envio envio) {
-        System.out.println("aqui");
         return this.listaEnvios.insertarEnvio(envio);
     }
 
     /**
+     * Devuelve el envio a partir de un localizador
      * @param localizador
-     * @return
+     * @return envio encontrado o null si no existe
      */
-    //Devuelve el envio a partir de un localizador
     public Envio buscarEnvio(String localizador) {
         return listaEnvios.buscarEnvio(localizador);
     }
 
     /**
-     * @param localizador
-     * @return
+     * Elimina el envío de la lista de envíos del pasajero
+     *  @param localizador
+     * @return true si se a eliminado y false si no se elimino el envio
      */
-    // TODO: Elimina el envío de la lista de envíos del pasajero
     public boolean cancelarEnvio(String localizador) {
         return this.listaEnvios.eliminarEnvio(localizador);
     }

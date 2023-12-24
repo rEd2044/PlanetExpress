@@ -88,6 +88,7 @@ public class ListaEnvios {
                 envio=getEnvio(i);
             }
         }
+
         return envio;
     }
 
@@ -105,7 +106,7 @@ public class ListaEnvios {
         Envio envio = null;
         for(int i=0;i<getOcupacion();i++){
             if(getEnvio(i).getColumna()==columna && getEnvio(i).getFila()==fila){
-                if(Objects.equals(getEnvio(i).getPorte().getID(), idPorte) && aux ){
+                if(Objects.equals(getEnvio(i).getPorte().getID(), idPorte) && !aux ){
                     envio=getEnvio(i);
                     aux=true;
                 }
@@ -180,16 +181,14 @@ public class ListaEnvios {
      * @return
      */
     public boolean aniadirEnviosCsv(String fichero) {
-        try{FileWriter fw =new FileWriter(fichero,true);    //Esto sirve para no sobrescribir el archivo.
-            try (PrintWriter salida = new PrintWriter(fw)) {
-                for (int i = 0; i < getOcupacion(); i++) {
+        try (PrintWriter salida = new PrintWriter(fichero)) {
+            for (int i = 0; i < getOcupacion(); i++) {
                 Envio envio = envios[i];
                 salida.println(envio.getLocalizador() + ";" + envio.getPorte().getID() + ";" + envio.getCliente().getEmail() + ";" + envio.getFila() + ";" + envio.getColumna() + ";" + envio.getPrecio());
-                }
             }
 
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             System.out.println("Error de escritura en fichero " + fichero);
             return false;
         }
@@ -215,13 +214,14 @@ public class ListaEnvios {
                     int columna = Integer.parseInt(parametros[4]);
                     double precio = Double.parseDouble(parametros[5]);
                     Envio envio = new Envio(parametros[0], porte, cliente, fila, columna, precio);
-                    clientes.insertarCliente(envio.getCliente());
-                    portes.insertarPorte(envio.getPorte());
                     cliente.aniadirEnvio(envio);
+                    porte.aniadirEnvio(envio);
+                    porte.ocuparHueco(envio);
+                    porte.imprimirMatrizHuecos();
                     parametros = linea.split(";");
                 }
 
-        }catch (Exception e){
+        }catch (IOException e){
             System.err.println("Fichero " + ficheroEnvios + " no encontrado");
         } finally {
             try {
