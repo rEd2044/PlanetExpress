@@ -117,7 +117,7 @@ public class Envio {
     }
     // TODO: Cancela este envío, eliminándolo de la lista de envíos del porte y del cliente correspondiente
     public boolean cancelar() {
-        return ((this.porte.desocuparHueco(this.localizador)&&this.cliente.cancelarEnvio(this.localizador)));
+        return (this.cliente.cancelarEnvio(this.localizador));
     }
 
     /**

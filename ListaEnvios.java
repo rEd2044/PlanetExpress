@@ -67,11 +67,9 @@ public class ListaEnvios {
     //TODO: insertamos un nuevo envío en la lista
     public boolean insertarEnvio(Envio envio) {
         if (estaLlena()) {
-            System.out.println("Aqui 1");
             return false;
         } else {
             envios[getOcupacion()] = envio;
-            System.out.println("aqui 2" );
             return true;
         }
     }
@@ -125,8 +123,8 @@ public class ListaEnvios {
     //TODO: Eliminamos un envio a través del localizador pasado por parámetro
     public boolean eliminarEnvio(String localizador) {
         boolean aux = false;
-        for(int i =0;i< envios.length;i++){
-            if(Objects.equals(envios[i].getLocalizador(), localizador)){
+        for(int i =0;i< getOcupacion();i++){
+            if(Objects.equals(getEnvio(i).getLocalizador(), localizador)){
                 envios[i]= null;
                 aux = true;
             }
@@ -182,11 +180,12 @@ public class ListaEnvios {
      * @return
      */
     public boolean aniadirEnviosCsv(String fichero) {
-        try (PrintWriter salida = new PrintWriter(fichero)) {
-            System.out.println(getOcupacion());
-            for (int i = 0; i < getOcupacion(); i++) {
-                    Envio envio = envios[i];
-                    salida.println(envio.getLocalizador() + ";" + envio.getPorte().getID() + ";" + envio.getCliente().getEmail() + ";" + envio.getFila() + ";" + envio.getColumna() + ";" + envio.getPrecio());
+        try{FileWriter fw =new FileWriter(fichero,true);    //Esto sirve para no sobrescribir el archivo.
+            try (PrintWriter salida = new PrintWriter(fw)) {
+                for (int i = 0; i < getOcupacion(); i++) {
+                Envio envio = envios[i];
+                salida.println(envio.getLocalizador() + ";" + envio.getPorte().getID() + ";" + envio.getCliente().getEmail() + ";" + envio.getFila() + ";" + envio.getColumna() + ";" + envio.getPrecio());
+                }
             }
 
             return true;
@@ -204,13 +203,11 @@ public class ListaEnvios {
      * @param clientes
      */
     public static void leerEnviosCsv(String ficheroEnvios, ListaPortes portes, ListaClientes clientes) {
-        Scanner sc = null;
+        BufferedReader leer = null;
         try {
-            sc = new Scanner(new BufferedReader(new FileReader(ficheroEnvios)));
-
-            do{
-                if(sc.hasNextLine()) {
-                    String linea = sc.nextLine();
+            leer = new BufferedReader(new FileReader(ficheroEnvios));
+            String linea;
+                while( (linea =leer.readLine())!= null) {
                     String[] parametros = linea.split(";");
                     Porte porte = portes.buscarPorte(parametros[1]);
                     Cliente cliente = clientes.buscarClienteEmail(parametros[2]);
@@ -220,17 +217,19 @@ public class ListaEnvios {
                     Envio envio = new Envio(parametros[0], porte, cliente, fila, columna, precio);
                     clientes.insertarCliente(envio.getCliente());
                     portes.insertarPorte(envio.getPorte());
-                    linea = sc.nextLine();
                     cliente.aniadirEnvio(envio);
                     parametros = linea.split(";");
                 }
 
-            }while(sc.hasNextLine());
         }catch (Exception e){
             System.err.println("Fichero " + ficheroEnvios + " no encontrado");
         } finally {
-            if(sc != null){
-                sc.close();
+            try {
+                if (leer != null) {
+                    leer.close();
+                }
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
             }
         }
     }

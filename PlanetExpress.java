@@ -78,7 +78,8 @@ public class PlanetExpress {
         listaPortes.escribirPortesCsv(ficheroPortes);
         for(int i=0;i<listaClientes.getOcupacion();i++){
                 Cliente cliente=listaClientes.getCliente(i);
-                cliente.getListaEnvios().aniadirEnviosCsv(ficheroEnvios);
+                 ListaEnvios listaEnvios=cliente.getListaEnvios();
+                 listaEnvios.aniadirEnviosCsv(ficheroEnvios);
 
         }
 
@@ -222,8 +223,7 @@ public class PlanetExpress {
                     }else{
                         teclado.nextLine();
                         Porte porte=Porte.altaPorte(teclado,rand,listaPuertosEspaciales,listaNaves,listaPortes);
-                        planetExpress.insertarPorte(porte);
-                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
+                        listaPortes.escribirPortesCsv(args[7]);
                     }
                     break;
                 case 2:     // TODO: Alta de Cliente
@@ -233,12 +233,12 @@ public class PlanetExpress {
                         teclado.nextLine();
                         Cliente cliente = Cliente.altaCliente(teclado, listaClientes, Integer.parseInt(args[4]));
                         planetExpress.insertarCliente(cliente);
-                        planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
+                        listaClientes.escribirClientesCsv(args[8]);
                     }
                     break;
                 case 3:     // TODO: Buscar Porte
                     if(listaPortes.getOcupacion()==0){
-                        System.out.println("La lista esta vacía no se puede buscar");
+                        System.out.println("\tLa lista esta vacía no se puede buscar");
                     }else {
                         teclado = new Scanner(System.in);
                         ListaPortes portes=planetExpress.buscarPorte(teclado);
@@ -251,7 +251,11 @@ public class PlanetExpress {
                     }
                     break;
                 case 4:     // TODO: Listado de envíos de un cliente
-                    Cliente cliente=listaClientes.seleccionarCliente(teclado,"Email del cliente: ");
+                    if(planetExpress.listaClientes.getOcupacion()==0){
+                        System.out.println("\tLa lista esta vacía no se puede buscar");
+                        break;
+                    }
+                    Cliente cliente = listaClientes.seleccionarCliente(teclado, "Email del cliente: ");
                     if(cliente.getListaEnvios().getOcupacion()==0){
                         System.out.println("No hay envios Disponibles");
                     }else {
@@ -270,6 +274,7 @@ public class PlanetExpress {
                             }
                         }
                     }
+                    planetExpress.guardarDatos(args[5],args[6],args[7],args[8],args[9]);
                     break;
                 case 5:     // TODO: Lista de envíos de un porte
                     if(listaPortes.getOcupacion()==0){

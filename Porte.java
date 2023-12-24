@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.invoke.StringConcatFactory;
+import java.security.spec.RSAOtherPrimeInfo;
 import java.sql.SQLOutput;
 import java.util.IllegalFormatCodePointException;
 import java.util.List;
@@ -45,19 +46,20 @@ public class Porte {
      */
     public Porte(String id, Nave nave, PuertoEspacial origen, int muelleOrigen, Fecha salida,
                  PuertoEspacial destino, int muelleDestino, Fecha llegada, double precio) {
-        this.id=id;
-        this.nave=nave;
-        this.origen=origen;
-        this.muelleOrigen=muelleOrigen;
-        this.salida=salida;
-        this.destino=destino;
-        this.muelleDestino=muelleDestino;
-        this.llegada=llegada;
-        this.precio=precio;
+        this.id = id;
+        this.nave = nave;
+        this.origen = origen;
+        this.muelleOrigen = muelleOrigen;
+        this.salida = salida;
+        this.destino = destino;
+        this.muelleDestino = muelleDestino;
+        this.llegada = llegada;
+        this.precio = precio;
         this.huecos = new boolean[nave.getFilas()][nave.getColumnas()];
-        for (int i =0; i< nave.getFilas();i++){
-            for(int j = 0; j< nave.getColumnas();j++){
-                huecos[i][j]= true;
+        for (int i = 0; i < nave.getFilas(); i++) {
+            for (int j = 0; j < nave.getColumnas(); j++) {
+                huecos[i][j] = true;
+
             }
         }
         this.listaEnvios=new ListaEnvios(numHuecosLibres());
@@ -93,7 +95,7 @@ public class Porte {
     public int numHuecosLibres() {
         int contador=0;
         for (boolean[] hueco : huecos) {
-            for (int columnas = 0; columnas < huecos.length; columnas++) {
+            for (int columnas = 0; columnas < hueco.length; columnas++) {
                 if (hueco[columnas]) {
                     contador++;
                 }
@@ -127,9 +129,7 @@ public class Porte {
      * @return el objeto Envio que corresponde, o null si está libre o se excede en el límite de fila y columna
      */
     public Envio buscarEnvio(int fila, int columna) {
-         if(huecos[fila][columna]){
-             return listaEnvios.buscarEnvio(id,fila,columna);
-         }
+         if(huecos[fila][columna]) return listaEnvios.buscarEnvio(id, fila, columna);
         return null;
     }
 
@@ -153,9 +153,9 @@ public class Porte {
      * @return
      */
     public boolean desocuparHueco(String localizador) {
-        Envio envio=listaEnvios.buscarEnvio(localizador);
-        int fila= envio.getFila(),
-        columna=envio.getColumna();
+            int fila = buscarEnvio(localizador).getFila();
+            int columna = buscarEnvio(localizador).getColumna();
+            huecos[fila][columna] = false;
         return huecoOcupado(fila,columna);
     }
 
@@ -219,18 +219,28 @@ public class Porte {
      * @param fichero
      * @return
      */
-    public boolean generarListaEnvios(String fichero){
-        try (PrintWriter salida = new PrintWriter(fichero )) {
-            for (int i=0; i<numHuecosLibres();i++){
-                salida.println("--------------------------------------------------------------\n" +
-                        "--------- Lista de envíos del porte------\n" +
-                        "--------------------------------------------------------------");
-                salida.println("Hueco   Cliente" +
-                        listaEnvios.getEnvio(i).getHueco()+"      "+ listaEnvios.getEnvio(i).getCliente().getNombre()+", "+listaEnvios.getEnvio(i).getCliente().getEmail() );
+    public boolean generarListaEnvios(String fichero) {
+        System.out.println(listaEnvios.getOcupacion());
+        Envio envio=null;
+        for (int i = 0; i < numHuecosLibres(); i++) {
+            for (int j = 0; j < numHuecosLibres(); j++) {
+                envio = buscarEnvio(i, j);
 
             }
+        }
+        try (PrintWriter salida = new PrintWriter(fichero)) {
+               if(envio!=null) {
+                   salida.println("" +
+                           "-----------------------------------------------------\n" +
+                           "--------- Lista de envíos del porte" + getID() + "------\n" +
+                           "-----------------------------------------------------");
+                   salida.println("Hueco   Cliente" +
+                           envio.getHueco() + "      " + envio.getCliente().getNombre() + ", " +envio.getCliente().getEmail());
+               }
+
+
             System.out.println("Fichero creado correctamente");
-            return true;
+             return true;
         } catch (FileNotFoundException ex) {
             System.out.println("Fichero no creado correctamente");
             return false;
